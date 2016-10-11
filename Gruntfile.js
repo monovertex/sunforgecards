@@ -65,32 +65,32 @@ module.exports = function (grunt) {
         browserify: {
             options: {
                 plugin: [
-                    ['pathmodify', {
-                        mods: [
-                            /**
-                             * Changes the paths of the files to allow for
-                             * imports relative to the root of the project, instead
-                             * of './././'-style paths (relative to the importing
-                             * file).
-                             * @param {Object} rec Alias module paths
-                             * @return {Object} Real module paths
-                             */
-                            function (rec) {
-                                var alias = {},
-                                    prefix = 'app/';
+                    // ['pathmodify', {
+                    //     mods: [
+                    //         /**
+                    //          * Changes the paths of the files to allow for
+                    //          * imports relative to the root of the project, instead
+                    //          * of './././'-style paths (relative to the importing
+                    //          * file).
+                    //          * @param {Object} rec Alias module paths
+                    //          * @return {Object} Real module paths
+                    //          */
+                    //         function (rec) {
+                    //             var alias = {},
+                    //                 prefix = 'app/';
 
-                                if (rec.id.indexOf(prefix) === 0) {
-                                    alias.id = path.join(
-                                        path.resolve(),
-                                        rec.id
-                                    );
-                                    return alias;
-                                }
+                    //             if (rec.id.indexOf(prefix) === 0) {
+                    //                 alias.id = path.join(
+                    //                     path.resolve(),
+                    //                     rec.id
+                    //                 );
+                    //                 return alias;
+                    //             }
 
-                                return rec;
-                            }
-                        ]
-                    }]
+                    //             return rec;
+                    //         }
+                    //     ]
+                    // }]
                 ],
             },
             dev: {
