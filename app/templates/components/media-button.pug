@@ -1,0 +1,10 @@
+
+mixin media-button(url, tooltip, icon)
+    .footer-button(
+        data-container='body'
+        data-toggle='tooltip'
+        data-placement='bottom'
+        title!=tooltip)
+
+        a.grey-link(href=url target='_blank')
+            i.fa(class=icon)

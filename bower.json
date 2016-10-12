@@ -1,0 +1,21 @@
+{
+  "name": "sunforgecards",
+  "description": "",
+  "main": "Gruntfile.js",
+  "authors": [
+    "Stamate Cosmin"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/monovertex/sunforgecards",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "bootstrap-sass-official#^3.3.7"
+  }
+}

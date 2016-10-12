@@ -1,7 +1,31 @@
+include components/article.pug
 
+doctype html
 
-link(rel='stylesheet' href='/assets/app.css')
+html
+    meta(charset='utf-8')
+    meta(http-equiv='x-ua-compatible' content='ie-edge')
+    meta(
+        name='viewport'
+        content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+    )
 
-script(src='/assets/app.js' async=true)
+    title= pageTitle
 
-script(src='//localhost:35729/livereload.js')
+    link(rel='shortcut icon' href='/favicon.png')
+
+    if debug
+        link(rel='stylesheet' href='/assets/app.css')
+
+    body
+        .global-wrapper
+            .container-fluid
+                .row
+                    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1.col-sm-12.col-sm-offset-0.col-xs-12.col-xs-offset-0
+                        each item in posts
+                            +post(item)
+
+        script(src='/assets/app.js' async=true)
+
+        if debug
+            script(src='//localhost:35729/livereload.js')

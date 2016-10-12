@@ -1,5 +1,10 @@
 
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,700';
 
-body {
-    background-color: blue;
-}
+@import 'variables';
+
+@import '../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
+
+@import 'base';
+@import 'sidebar';
+@import 'content';

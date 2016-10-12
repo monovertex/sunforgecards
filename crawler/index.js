@@ -1,6 +1,6 @@
+/*jshint loopfunc: true */
 
 let tumblr = require('tumblr.js');
-let _ = require('lodash');
 let PostCollection = require('../app/collections/posts');
 let AnswerCollection = require('../app/collections/answers');
 let Post = require('../app/models/post');
@@ -14,20 +14,35 @@ const C = require('./constants');
 
 let client = tumblr.createClient({ credentials: C.credentials });
 
-
+/**
+ * Iterates the posts returned by the API calls and the resolves the promise
+ * with all the posts and the Q&A models.
+ * @param {Function} resolve Promise resolve
+ * @param {Function} reject Promise reject
+ * @param {Collection} posts Accumulator of post models
+ * @param {Collection} answers Accumulator of Q&A models
+ * @param {Number} offset Where the start the query from
+ * @param {Number} limit How many posts to query
+ */
 function _iteratePosts(resolve, reject,
     posts=(new PostCollection()), answers=(new AnswerCollection()),
     offset=0, limit=20) {
 
     console.log(`--- Fetching posts from ${offset} to ${(offset + limit)} ---`);
 
+    // Execute the API call.
     client.blogPosts(C.blog, { offset, limit }, (err, data) => {
         if (data.posts.length) {
             for (let post of data.posts) {
+
+                // We're only showing published posts.
                 if (post.state === 'published') {
+
+                    // We're only showing some type of posts on this frontend.
                     if (post.type === 'video' || post.type === 'photo' ||
                         post.type === 'text') {
 
+                        // Common information for posts.
                         let postInstance = new Post({
                             id: post.id,
                             slug: post.slug,
@@ -37,16 +52,27 @@ function _iteratePosts(resolve, reject,
                             caption: post.caption
                         });
 
+                        // For video posts, grab their URL and determine if the
+                        // URL is from YouTube or not.
                         if (post.type === 'video') {
+                            let url = post.permalink_url ||
+                                post.video_url;
+
+                            url = url.replace('www.youtube.com/watch?v=',
+                                'www.youtube.com/embed/');
+
                             postInstance.set({
-                                video: post.source_url ||
-                                    post.permalink_url ||
-                                    post.video_url
+                                video: url,
+                                isYoutube: url.indexOf('yout') !== -1
                             });
+
+                        // For photo posts, download all the photos and save
+                        // their paths.
                         } else if (post.type === 'photo') {
                             let postPhotos = [];
 
                             for (let photo of post.photos) {
+                                // Make regular HTTP requests.
                                 let sourceUrl = photo.original_size.url
                                     .replace('https', 'http');
                                 let sourceFilename = path.basename(
@@ -54,8 +80,10 @@ function _iteratePosts(resolve, reject,
                                 let destPath = path.join(C.paths.photos, String(post.id),
                                     sourceFilename);
 
+                                // Make sure the entire path exists.
                                 mkdirp(path.dirname(destPath));
 
+                                // Write the file.
                                 http.get(sourceUrl, (response) =>
                                     response.pipe(fs.createWriteStream(destPath)));
 
@@ -68,6 +96,8 @@ function _iteratePosts(resolve, reject,
                         }
 
                         posts.add(postInstance);
+
+                    // Save the Q&A posts in a different model.
                     } else if (post.type === 'answer') {
                         answers.add({
                             id: post.id,
@@ -75,6 +105,8 @@ function _iteratePosts(resolve, reject,
                             question: post.question,
                             answer: post.answer
                         });
+
+                    // For any unexpected post type, log it out.
                     } else {
                         console.log(post.type);
                     }
@@ -82,21 +114,26 @@ function _iteratePosts(resolve, reject,
             }
         }
 
-        // resolve({ posts, answers });
+        resolve({ posts, answers });
 
-        if (data.posts.length < limit) {
-
-        } else {
-            _iteratePosts(resolve, reject, posts, answers,
-                offset + data.posts.length);
-        }
+        // if (data.posts.length < limit) {
+        //     resolve({ posts, answers });
+        // } else {
+        //     _iteratePosts(resolve, reject, posts, answers,
+        //         offset + data.posts.length);
+        // }
     });
 }
 
+/**
+ * Wrapper function that starts the recursive post fetching.
+ * @return {Promise}
+ */
 function iteratePosts() {
     return new Promise(_iteratePosts);
 }
 
+// Iterate all the posts and save the data to disk.
 iteratePosts().then(({ posts, answers }) => {
     let postsPath = path.join(C.paths.data, 'posts.json');
     let answersPath = path.join(C.paths.data, 'answers.json');

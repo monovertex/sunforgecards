@@ -4,8 +4,7 @@
 module.exports = function (grunt) {
     'use strict';
 
-    var path = require('path'),
-        imageminOptipng = require('imagemin-optipng');
+    var imageminOptipng = require('imagemin-optipng');
 
     require('time-grunt')(grunt);
 
@@ -20,6 +19,7 @@ module.exports = function (grunt) {
             dist: {
                 base: './dist/',
                 assets: '<%= paths.dist.base %>assets/',
+                photos: '<%= paths.dist.base %>photos/',
             },
             app: {
                 base: './app/',
@@ -30,7 +30,10 @@ module.exports = function (grunt) {
                 templates: '<%= paths.app.base %>templates/',
                 views: '<%= paths.app.base %>views/',
             },
-            data: { base: './data/' },
+            data: {
+                base: './data/',
+                photos: '<%= paths.data.base %>photos/'
+            },
             public: { base: './public/' },
             tmp: {
                 base: './tmp/',
@@ -142,7 +145,13 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: '<%= paths.public.base %>',
                         src: '**',
-                        dest: '<%= paths.public.base %>'
+                        dest: '<%= paths.dist.base %>'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= paths.data.photos %>',
+                        src: '**',
+                        dest: '<%= paths.dist.photos %>'
                     },
                 ],
             },
@@ -202,6 +211,17 @@ module.exports = function (grunt) {
             dev: {
                 options: {
                     pretty: true,
+                    data: function() {
+                        var posts = require('./data/posts.json');
+                        var answers = require('./data/answers.json');
+                        var data = {
+                            posts: posts,
+                            answers: answers,
+                            debug: true
+                        };
+
+                        return data;
+                    },
                 },
                 files: {
                     '<%= paths.dist.base %>index.html':
@@ -210,7 +230,18 @@ module.exports = function (grunt) {
             },
             prod: {
                 options: {
-                    pretty: false
+                    pretty: false,
+                    data: function() {
+                        var posts = require('./data/posts.json');
+                        var answers = require('./data/>answers.json');
+                        var data = {
+                            posts: posts,
+                            answers: answers,
+                            debug: true
+                        };
+
+                        return data;
+                    },
                 },
                 files: '<%= pug.dev.files %>'
             }

@@ -1,0 +1,40 @@
+include video.pug
+include media-button.pug
+
+mixin post(data)
+    article.post
+        section.post-content
+            if data.photos
+                .photo-wrapper
+                    .media-container
+                        .photo-inner(class=data.photos.length > 1 ? 'photoset' : false)
+                            each photo in data.photos
+                                - url = '/photos/' + data.id + '/' + photo
+                                a.photo(href=url)
+                                    img(src=url)
+            else if data.video
+                .video-wrapper
+                    .media-container
+                        +video(data.isYoutube, data.video)
+
+        section.post-caption!= data.caption
+
+        footer.post-footer
+            .row
+                .col-xs-4.text-left
+                    a.grey-link(href='#')
+                        = "date posted"
+
+                .col-xs-8.text-right
+                    +media-button('#',
+                        'Share it on Facebook!', 'fa-facebook-square')
+                    +media-button('#',
+                        'Tweet about it!', 'fa-twitter')
+                    +media-button('#',
+                        'Leave a comment', 'fa-comments')
+
+        aside.post-tags
+            each tag in data.tags
+                a.tag(href='#')!='#' + tag
+
+    hr

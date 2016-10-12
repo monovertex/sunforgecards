@@ -1,7 +1,7 @@
 {
     "predef": [
         "document", "window", "module", "require",
-        "$", "Backbone", "jQuery", "_"
+        "$", "jQuery"
     ],
     "browser": true,
     "boss": true,

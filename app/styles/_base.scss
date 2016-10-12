@@ -1,0 +1,24 @@
+
+a {
+    transition: color $transition-speed;
+
+    &:focus,
+    &:visited,
+    &:hover,
+    &:active {
+        text-decoration: none;
+    }
+
+    &.grey-link {
+        color: $color-grey;
+
+        &:hover {
+            color: $color-grey;
+        }
+    }
+
+}
+
+body {
+    overflow-x: hidden;
+}
