@@ -21,17 +21,17 @@ mixin post(data)
 
         footer.post-footer
             .row
-                .col-xs-4.text-left
+                .col-xs-8.text-left
+                    +media-button('#',
+                        'Share it on Facebook!', 'icon-facebook')
+                    +media-button('#',
+                        'Tweet about it!', 'icon-twitter')
+                    +media-button('#',
+                        'Leave a comment', 'icon-comments')
+
+                .col-xs-4.text-right
                     a.grey-link(href='#')
                         = "date posted"
-
-                .col-xs-8.text-right
-                    +media-button('#',
-                        'Share it on Facebook!', 'fa-facebook-square')
-                    +media-button('#',
-                        'Tweet about it!', 'fa-twitter')
-                    +media-button('#',
-                        'Leave a comment', 'fa-comments')
 
         aside.post-tags
             each tag in data.tags
