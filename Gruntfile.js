@@ -1,10 +1,65 @@
 
-/* jshint esversion: 5 */
-
 module.exports = function (grunt) {
     'use strict';
 
     var imageminOptipng = require('imagemin-optipng');
+    var _ = require('lodash');
+
+    var posts = require('./data/posts.json');
+
+    // var answers = require('./data/answers.json');
+
+    function generatePugTargets(id, path, template, data) {
+        var devKey = `dev${id}`,
+            prodKey = `prod${id}`,
+            distPath = `<%= paths.dist.base %>${path ? path : ''}${id}.html`,
+            templateData = { data };
+
+        return {
+            targets: {
+                [devKey]: {
+                    options: {
+                        pretty: true,
+                        data: _.merge({
+                            debug: true
+                        }, templateData)
+                    },
+                    files: { [distPath]: template }
+                },
+                [prodKey]: {
+                    options: {
+                        pretty: false,
+                        data: _.merge({
+                            debug: false
+                        }, templateData)
+                    },
+                    files: `<%= pug.${devKey}.files %>`
+                }
+            },
+            devKey,
+            prodKey
+        };
+    }
+
+    function mergeTargets(...targets) {
+        return _.reduce(targets, (result, current) => {
+            var { targets, devKey, prodKey } = current;
+
+            _.merge(result.targets, targets);
+            result.devTargets.push(`pug:${devKey}`);
+            result.prodTargets.push(`pug:${prodKey}`);
+
+            return result;
+        }, { targets: {}, devTargets: [], prodTargets: [] });
+    }
+
+
+    var pugTargets = mergeTargets(
+        generatePugTargets('index', '', '<%= paths.app.templates %>index.pug',
+            posts),
+        ...(_.map(posts, (post) =>  generatePugTargets(post.id, 'posts/',
+            '<%= paths.app.templates %>post.pug', post)))
+    );
 
     require('time-grunt')(grunt);
 
@@ -136,7 +191,7 @@ module.exports = function (grunt) {
         },
 
         uglify: {
-            'vendor-dev': {
+            vendorDev: {
                 options: {
                     compress: false,
                     mangle: false,
@@ -151,7 +206,7 @@ module.exports = function (grunt) {
                     ]
                 }
             },
-            'vendor-prod': {
+            vendorProd: {
                 options: {
                     mangle: {},
                     screwIE8: true,
@@ -161,7 +216,7 @@ module.exports = function (grunt) {
                     },
                     sourceMap: true,
                 },
-                files: '<%= uglify.dev.files %>'
+                files: '<%= uglify.vendorDev.files %>'
             },
         },
 
@@ -240,45 +295,7 @@ module.exports = function (grunt) {
         },
 
         // Templates compilation.
-        pug: {
-            dev: {
-                options: {
-                    pretty: true,
-                    data: function() {
-                        var posts = require('./data/posts.json');
-                        var answers = require('./data/answers.json');
-                        var data = {
-                            posts: posts,
-                            answers: answers,
-                            debug: true
-                        };
-
-                        return data;
-                    },
-                },
-                files: {
-                    '<%= paths.dist.base %>index.html':
-                        ['<%= paths.app.templates %>index.pug']
-                }
-            },
-            prod: {
-                options: {
-                    pretty: false,
-                    data: function() {
-                        var posts = require('./data/posts.json');
-                        var answers = require('./data/>answers.json');
-                        var data = {
-                            posts: posts,
-                            answers: answers,
-                            debug: true
-                        };
-
-                        return data;
-                    },
-                },
-                files: '<%= pug.dev.files %>'
-            }
-        },
+        pug: pugTargets.targets,
 
         // HTML minification.
         htmlmin: {
@@ -410,14 +427,15 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.registerTask('scripts', ['jshint:dev', 'browserify:dev']);
-    grunt.registerTask('scripts-vendor', ['uglify:vendor-dev']);
+    grunt.registerTask('scriptsVendor', ['uglify:vendorDev']);
 
     grunt.registerTask('styles', ['sass:dev', 'postcss:dev']);
 
-    grunt.registerTask('templates', ['pug:dev']);
+    grunt.registerTask('templates:dev', pugTargets.devTargets);
+    grunt.registerTask('templates:prod', pugTargets.prodTargets);
 
-    grunt.registerTask('default', ['clean', 'styles', 'scripts', 'scripts-vendor',
-        'templates', 'copy']);
+    grunt.registerTask('default', ['clean', 'styles', 'scripts', 'scriptsVendor',
+        'templates:dev', 'copy']);
 
     grunt.registerTask('serve', ['default', 'connect:server', 'watch']);
 
@@ -427,13 +445,13 @@ module.exports = function (grunt) {
         'sass:prod', 'postcss:prod',
 
         // Scripts
-        'jshint:prod', 'browserify:prod', 'uglify:vendor-prod',
+        'jshint:prod', 'browserify:prod', 'uglify:vendorProd',
 
         // Copy public files
         'copy',
 
         // Templates
-        'pug:prod',
+        'templates:prod',
 
         // Compression
         'htmlmin', 'compress', 'imagemin']);
