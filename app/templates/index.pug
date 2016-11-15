@@ -1,55 +1,5 @@
-include components/article.pug
-include components/nav-link.pug
+extends base.pug
 
-doctype html
-
-html
-    meta(charset='utf-8')
-    meta(http-equiv='x-ua-compatible' content='ie-edge')
-    meta(
-        name='viewport'
-        content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-    )
-
-    title= pageTitle
-
-    link(rel='shortcut icon' href='/favicon.png')
-
-    if debug
-        link(rel='stylesheet' href='/assets/app.css')
-
-    body
-        .global-wrapper
-            .container-fluid
-                .row
-                    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1.col-sm-12.col-sm-offset-0.col-xs-12.col-xs-offset-0
-                        each item in posts
-                            +post(item)
-
-        .sidebar
-            header.logo-wrapper
-                a(href='/')
-                    img.logo.img-responsive(
-                        src='assets/images/logo.png'
-                        alt="Sunforge Cards")
-
-            nav.navigation
-                +nav-link('http://yt.sunforgecards.com', 'youtube',
-                    'YouTube', 'icon-youtube')
-                +nav-link('https://facebook.com/sunforgecards', 'facebook',
-                    'Facebook', 'icon-facebook')
-                +nav-link('https://www.instagram.com/sunforgecards', 'instagram',
-                    'Instagram', 'icon-instagram')
-                +nav-link('https://pinterest.com/sunforgecards', 'pinterest',
-                    'Pinterest', 'icon-pinterest')
-                +nav-link('https://twitter.com/sunforgecards', 'twitter',
-                    'Twitter', 'icon-twitter')
-                +nav-link('mailto:contact@sunforgecards.com', 'mail',
-                    'Contact me', 'icon-envelope')
-                +nav-link('sunforgecards.tumblr.com/ask', 'ask',
-                    'Ask me anything', 'icon-question')
-
-        script(src='/assets/app.js' async=true)
-
-        if debug
-            script(src='//localhost:35729/livereload.js')
+block content
+    each item in posts
+        +post(item)

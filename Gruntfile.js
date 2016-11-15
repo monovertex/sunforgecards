@@ -16,6 +16,7 @@ module.exports = function (grunt) {
         paths: {
             base: './',
             crawler: { base: './crawler/', },
+            bower: './bower_components/',
             dist: {
                 base: './dist/',
                 assets: '<%= paths.dist.base %>assets/',
@@ -107,7 +108,9 @@ module.exports = function (grunt) {
                     ]
                 },
                 files: {
-                    '<%= paths.dist.assets %>app.js': ['<%= paths.app.base %>app.js']
+                    '<%= paths.dist.assets %>app.js': [
+                        '<%= paths.app.base %>app.js',
+                    ]
                 }
             },
             prod: {
@@ -130,6 +133,36 @@ module.exports = function (grunt) {
                 },
                 files: '<%= browserify.dev.files %>'
             }
+        },
+
+        uglify: {
+            'vendor-dev': {
+                options: {
+                    compress: false,
+                    mangle: false,
+                    beautify: true,
+                    sourceMap: true
+                },
+                files: {
+                    '<%= paths.dist.assets %>vendor.js': [
+                        '<%= paths.bower %>jquery/dist/jquery.js',
+                        '<%= paths.bower %>jquery-mousewheel/jquery.mousewheel.js',
+                        '<%= paths.bower %>malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js'
+                    ]
+                }
+            },
+            'vendor-prod': {
+                options: {
+                    mangle: {},
+                    screwIE8: true,
+                    preserveComments: false,
+                    compress: {
+                        drop_console: true
+                    },
+                    sourceMap: true,
+                },
+                files: '<%= uglify.dev.files %>'
+            },
         },
 
         // Cleanup dist files.
@@ -331,10 +364,16 @@ module.exports = function (grunt) {
             },
             scripts: {
                 files: [
-                    '<%= paths.app %>**/*.js',
+                    '<%= paths.app.base %>**/*.js',
                 ],
                 tasks: ['scripts']
             },
+            // 'scripts-vendor': {
+            //     files: [
+            //         '<%= paths.app.base %>**/*.js',
+            //     ],
+            //     tasks: ['scripts']
+            // },
             styles: {
                 files: [
                     '<%= paths.app.styles %>**/*.scss',
@@ -371,12 +410,14 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.registerTask('scripts', ['jshint:dev', 'browserify:dev']);
+    grunt.registerTask('scripts-vendor', ['uglify:vendor-dev']);
 
     grunt.registerTask('styles', ['sass:dev', 'postcss:dev']);
 
     grunt.registerTask('templates', ['pug:dev']);
 
-    grunt.registerTask('default', ['clean', 'styles', 'scripts', 'templates', 'copy']);
+    grunt.registerTask('default', ['clean', 'styles', 'scripts', 'scripts-vendor',
+        'templates', 'copy']);
 
     grunt.registerTask('serve', ['default', 'connect:server', 'watch']);
 
@@ -386,7 +427,7 @@ module.exports = function (grunt) {
         'sass:prod', 'postcss:prod',
 
         // Scripts
-        'jshint:prod', 'browserify:prod',
+        'jshint:prod', 'browserify:prod', 'uglify:vendor-prod',
 
         // Copy public files
         'copy',

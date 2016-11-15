@@ -1,0 +1,58 @@
+include components/article.pug
+include components/nav-link.pug
+
+doctype html
+
+html
+    meta(charset='utf-8')
+    meta(http-equiv='x-ua-compatible' content='ie-edge')
+    meta(
+        name='viewport'
+        content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+    )
+
+    title= pageTitle
+
+    link(rel='shortcut icon' href='/favicon.png')
+
+    if debug
+        link(rel='stylesheet' href='/assets/app.css')
+
+    body
+        .navbar
+            header.logo-wrapper
+                a(href='/')
+                    img.logo.img-responsive(
+                        src='assets/images/logo.png'
+                        alt="Sunforge Cards")
+
+            nav.navigation
+                +nav-link('http://yt.sunforgecards.com', 'youtube',
+                    'YouTube', 'icon-youtube')
+                +nav-link('https://facebook.com/sunforgecards', 'facebook',
+                    'Facebook', 'icon-facebook')
+                +nav-link('https://www.instagram.com/sunforgecards', 'instagram',
+                    'Instagram', 'icon-instagram')
+                +nav-link('https://pinterest.com/sunforgecards', 'pinterest',
+                    'Pinterest', 'icon-pinterest')
+                +nav-link('https://twitter.com/sunforgecards', 'twitter',
+                    'Twitter', 'icon-twitter')
+                +nav-link('mailto:contact@sunforgecards.com', 'mail',
+                    'Contact me', 'icon-envelope')
+                +nav-link('sunforgecards.tumblr.com/ask', 'ask',
+                    'Ask me anything', 'icon-question')
+
+        .global-wrapper
+            .container-fluid
+                .row
+                    .content-column
+                        block content
+
+                    .sidebar-column
+                        block sidebar
+
+        script(src='/assets/vendor.js')
+        script(src='/assets/app.js')
+
+        if debug
+            script(src='//localhost:35729/livereload.js')
