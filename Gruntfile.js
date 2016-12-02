@@ -55,10 +55,9 @@ module.exports = function (grunt) {
 
 
     var pugTargets = mergeTargets(
-        generatePugTargets('index', '', '<%= paths.app.templates %>index.pug',
-            posts),
-        ...(_.map(posts, (post) =>  generatePugTargets(post.id, 'posts/',
-            '<%= paths.app.templates %>post.pug', post)))
+        generatePugTargets('index', '', '<%= paths.app.templates %>index.pug', posts),
+        ...(_.map(posts, (post) => generatePugTargets(
+            post.id, 'posts/', '<%= paths.app.templates %>post.pug', post)))
     );
 
     require('time-grunt')(grunt);
@@ -401,7 +400,7 @@ module.exports = function (grunt) {
                 files: [
                     '<%= paths.app.templates %>**/*.pug',
                 ],
-                tasks: ['templates']
+                tasks: ['templates:dev']
             },
             public: {
                 files: [

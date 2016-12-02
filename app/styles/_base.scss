@@ -1,6 +1,7 @@
 
 a {
     transition: color $transition-speed;
+    color: $color-grey;
 
     &:focus,
     &:visited,
@@ -9,20 +10,7 @@ a {
         text-decoration: none;
     }
 
-    &.grey-link {
-        color: $color-grey;
-
-        &:hover {
-            color: $color-grey;
-        }
+    &:hover {
+        color: $color-highlight;
     }
-
-}
-
-html, body {
-    min-height: 100%;
-}
-
-body {
-    overflow-x: hidden;
 }

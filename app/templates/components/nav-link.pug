@@ -1,6 +1,6 @@
 
 
 mixin nav-link(url, className, title, icon)
-    a.navigation-link(href=url class=className title=title target='_blank'
-        data-toggle='tooltip' data-placement='right' data-container='body')
-        i(class=icon)
+    a.navigation-link(href=url class=className target='_blank')
+        i.navigation-icon.icon-fw.icon-2x(class=icon)
+        span.navigation-title=title

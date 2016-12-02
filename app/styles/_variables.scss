@@ -2,16 +2,20 @@
 $color-white: #fff;
 $color-white-shadow: darken($color-white, 9%);
 $color-black: #1e1e20;
-$color-grey: #cccccc;
-
-$color-base: #374140;
-$color-base-alt: #2a2c2b;
+$color-grey: #bbb;
+$color-grey-dark: #777;
 $color-highlight: #FFBA00;
 
 $transition-speed: 0.2s;
 
-$link-color: $color-highlight;
-
 $font-family-sans-serif: 'Open Sans', sans-serif;
 
 $column-gutter: 40px;
+
+$font-size-base: 13px;
+
+$sidebar-width: 200px;
+$column-padding: 20px 10px;
+$content-gutter: 20px;
+$global-max-width: 960px;
+$logo-width: 140px;

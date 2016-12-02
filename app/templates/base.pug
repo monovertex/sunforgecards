@@ -19,37 +19,39 @@ html
         link(rel='stylesheet' href='/assets/app.css')
 
     body
-        .navbar
-            header.logo-wrapper
-                a(href='/')
-                    img.logo.img-responsive(
-                        src='assets/images/logo.png'
-                        alt="Sunforge Cards")
-
-            nav.navigation
-                +nav-link('http://yt.sunforgecards.com', 'youtube',
-                    'YouTube', 'icon-youtube')
-                +nav-link('https://facebook.com/sunforgecards', 'facebook',
-                    'Facebook', 'icon-facebook')
-                +nav-link('https://www.instagram.com/sunforgecards', 'instagram',
-                    'Instagram', 'icon-instagram')
-                +nav-link('https://pinterest.com/sunforgecards', 'pinterest',
-                    'Pinterest', 'icon-pinterest')
-                +nav-link('https://twitter.com/sunforgecards', 'twitter',
-                    'Twitter', 'icon-twitter')
-                +nav-link('mailto:contact@sunforgecards.com', 'mail',
-                    'Contact me', 'icon-envelope')
-                +nav-link('sunforgecards.tumblr.com/ask', 'ask',
-                    'Ask me anything', 'icon-question')
-
         .global-wrapper
-            .container-fluid
-                .row
-                    .content-column
-                        block content
+            aside.sidebar-column
+                header.logo-wrapper
+                    a(href='/')
+                        img.logo.img-responsive(
+                            src='assets/images/logo.png'
+                            alt="Sunforge Cards")
 
-                    .sidebar-column
-                        block sidebar
+                .navbar
+                    nav.navigation
+                        div.navigation-inner
+                            +nav-link('http://yt.sunforgecards.com', 'youtube',
+                                'YouTube', 'icon-youtube')
+                            +nav-link('https://facebook.com/sunforgecards', 'facebook',
+                                'Facebook', 'icon-facebook')
+                            +nav-link('https://www.instagram.com/sunforgecards', 'instagram',
+                                'Instagram', 'icon-instagram')
+                            +nav-link('https://pinterest.com/sunforgecards', 'pinterest',
+                                'Pinterest', 'icon-pinterest')
+                            +nav-link('https://twitter.com/sunforgecards', 'twitter',
+                                'Twitter', 'icon-twitter')
+                            +nav-link('mailto:contact@sunforgecards.com', 'mail',
+                                'Email', 'icon-envelope')
+                            +nav-link('sunforgecards.tumblr.com/ask', 'ask',
+                                'Ask me!', 'icon-question')
+
+                .qa
+                    header.qa-header
+                        .pull-left.qa-title='Latest Q&A'
+                        a.pull-right.qa-link(href='#')='Check all'
+
+            .content-column
+                block content
 
         script(src='/assets/vendor.js')
         script(src='/assets/app.js')

@@ -38,6 +38,21 @@ $icon-fonts-path: '/assets/fonts/sunforgecards/';
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-fw {
+    width: (18em / 14);
+    text-align: center;
+}
+
+.icon-lg {
+    font-size: (4em / 3);
+    line-height: (3em / 4);
+    vertical-align: -15%;
+}
+.icon-2x { font-size: 2em; }
+.icon-3x { font-size: 3em; }
+.icon-4x { font-size: 4em; }
+.icon-5x { font-size: 5em; }
+
 .icon-youtube:before {
     content: "\61";
 }

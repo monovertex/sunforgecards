@@ -1,52 +1,15 @@
 
-.global-wrapper {
-    position: absolute;
-    left: ($navbar-width + $column-gutter);
-    right: 0;
-    top: 0;
-    bottom: 0;
-    overflow: hidden;
 
-    > .container-fluid,
-    > .container-fluid > .row {
-        height: 100%;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .content-column,
-    .sidebar-column {
-        height: 100%;
-        overflow-x: hidden;
-        overflow-y: auto;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-    }
-
-    $sidebar-width: 400px;
-
-    .content-column {
-        left: 0;
-        right: ($column-gutter + $sidebar-width);
-        padding: 20px 10px 20px 0;
-    }
-
-    .sidebar-column {
-        width: $sidebar-width;
-        right: 0;
-    }
+.content-column {
 
     .post {
         $margin: 5px;
         $border-radius: 3px;
-
         margin-bottom: 80px;
 
         h1, h2, h3 {
             margin-top: 0;
             margin-bottom: 10px;
-            color: $color-highlight;
             font-weight: bold;
             font-size: 20px;
         }
@@ -149,10 +112,10 @@
         .post-footer {
             border-bottom: 1px solid $color-white-shadow;
             padding-bottom: 10px;
-            margin-top: 10px;
+            padding-top: 25px;
 
             .footer-button {
-                $height: 20px;
+                $height: 16px;
 
                 height: $height;
                 line-height: $height;
@@ -175,6 +138,8 @@
 
             a {
                 margin-right: $padding-base-horizontal;
+                display: inline-block;
+                white-space: nowrap;
             }
         }
     }
@@ -213,20 +178,20 @@
     //     }
     // }
 
-    @media screen and (max-width: $screen-md-max) {
-        left: 0;
-        padding-top: ($navbar-height);
+    // @media screen and (max-width: $screen-md-max) {
+    //     left: 0;
+    //     padding-top: ($navbar-height);
 
-        .post {
-            margin-bottom: 20px;
-        }
-    }
+    //     .post {
+    //         margin-bottom: 20px;
+    //     }
+    // }
 
-    @media screen and (max-width: 480px) {
-        $offset: (-$grid-gutter-width * 0.4);
+    // @media screen and (max-width: 480px) {
+    //     $offset: (-$grid-gutter-width * 0.4);
 
-        padding-top: ($navbar-height * 2);
-        left: $offset;
-        right: $offset;
-    }
+    //     padding-top: ($navbar-height * 2);
+    //     left: $offset;
+    //     right: $offset;
+    // }
 }
