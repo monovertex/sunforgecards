@@ -4,22 +4,23 @@ module.exports = function (grunt) {
 
     var imageminOptipng = require('imagemin-optipng');
     var _ = require('lodash');
+    var moment = require('moment');
 
     var posts = require('./data/posts.json');
-
-    // var answers = require('./data/answers.json');
+    var qa = require('./data/answers.json');
 
     function generatePugTargets(id, path, template, data) {
         var devKey = `dev${id}`,
             prodKey = `prod${id}`,
             distPath = `<%= paths.dist.base %>${path ? path : ''}${id}.html`,
-            templateData = { data };
+            templateData = { data, qa, moment };
 
         return {
             targets: {
                 [devKey]: {
                     options: {
                         pretty: true,
+                        compileDebug: true,
                         data: _.merge({
                             debug: true
                         }, templateData)
@@ -200,8 +201,6 @@ module.exports = function (grunt) {
                 files: {
                     '<%= paths.dist.assets %>vendor.js': [
                         '<%= paths.bower %>jquery/dist/jquery.js',
-                        '<%= paths.bower %>jquery-mousewheel/jquery.mousewheel.js',
-                        '<%= paths.bower %>malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js'
                     ]
                 }
             },

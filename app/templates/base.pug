@@ -47,8 +47,24 @@ html
 
                 .qa
                     header.qa-header
-                        .pull-left.qa-title='Latest Q&A'
-                        a.pull-right.qa-link(href='#')='Check all'
+                        h3.pull-left.qa-title= 'Latest Q&A'
+                        a.pull-right(href='#')= 'Check all'
+                        .clearfix
+
+                    .qa-content
+                        - recent = qa.slice(0, 3)
+
+                        each qaItem in recent
+                            - date = moment(qaItem.date).fromNow()
+
+                            .qa-item
+                                .date= date
+                                .question= qaItem.question
+                                .answer-header= 'Answer:'
+                                .answer!= qaItem.answer
+
+                    footer.qa-footer
+                        a(href='#')= 'View all questions'
 
             .content-column
                 block content

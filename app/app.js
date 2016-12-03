@@ -1,10 +1,10 @@
 
-// $(() => {
-//     $('.sidebar-column, .content-column').mCustomScrollbar({
-//         theme: 'dark-3',
-//         scrollInertia: 10,
-//         mouseWheel: {
-//             scrollAmount: 100
-//         }
-//     });
-// });
+var PostView = require('./views/post');
+
+window.jQuery(() => {
+
+    $('.post').each((index, post) => {
+        new PostView({ el: post });
+    });
+
+});
