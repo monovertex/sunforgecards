@@ -107,3 +107,69 @@
     //     }
     // }
 }
+
+.qa {
+    margin-top: 50px;
+
+    a {
+        font-weight: bold;
+    }
+
+    .qa-header {
+        .qa-title {
+            color: $color-grey-dark;
+            font-weight: bold;
+            margin: 0;
+            vertical-align: bottom;
+            font-size: 15px;
+        }
+    }
+
+    .qa-content {
+        margin: 8px 0;
+        padding: 30px 0;
+        border-color: $color-white-shadow;
+        border-width: 1px 0;
+        border-style: solid;
+
+        .qa-item {
+            $font-size: 12px;
+
+            font-size: $font-size;
+            margin-bottom: 30px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            .date {
+                border-bottom: 1px solid $color-white-shadow;
+                padding-bottom: 5px;
+                color: $color-grey;
+                font-size: 11px;
+            }
+
+            .question {
+                font-weight: bold;
+                margin: 8px 0 15px;
+            }
+
+            .answer-header {
+                margin-bottom: 5px;
+                color: $color-grey;
+                font-weight: bold;
+            }
+
+            p,
+            blockquote {
+                margin-bottom: 4px;
+            }
+
+            blockquote {
+                font-size: $font-size;
+                padding: 0 0 0 5px;
+                border-left: 3px solid $color-white-shadow;
+            }
+        }
+    }
+}

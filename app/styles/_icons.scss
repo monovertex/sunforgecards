@@ -12,30 +12,29 @@ $icon-fonts-path: '/assets/fonts/sunforgecards/';
     font-style: normal;
 }
 
-[data-icon]:before {
-    font-family: "sunforgecards" !important;
-    content: attr(data-icon);
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-variant: normal !important;
-    text-transform: none !important;
-    speak: none;
+[class^="icon-"],
+[class*=" icon-"],
+[data-icon] {
     line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    display: inline-block;
+
+    &::before {
+        font-family: "sunforgecards" !important;
+        font-style: normal !important;
+        font-weight: normal !important;
+        font-variant: normal !important;
+        text-transform: none !important;
+        speak: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        display: inline-block;
+        vertical-align: top;
+    }
 }
 
-[class^="icon-"]:before,
-[class*=" icon-"]:before {
-    font-family: "sunforgecards" !important;
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-variant: normal !important;
-    text-transform: none !important;
-    speak: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+[data-icon]::before {
+    content: attr(data-icon);
 }
 
 .icon-fw {
@@ -53,34 +52,27 @@ $icon-fonts-path: '/assets/fonts/sunforgecards/';
 .icon-4x { font-size: 4em; }
 .icon-5x { font-size: 5em; }
 
-.icon-youtube:before {
-    content: "\61";
-}
-
 .icon-facebook:before {
-    content: "\62";
+  content: "\62";
 }
-
 .icon-instagram:before {
-    content: "\63";
+  content: "\63";
 }
-
 .icon-pinterest:before {
-    content: "\64";
+  content: "\64";
 }
-
 .icon-twitter:before {
-    content: "\65";
+  content: "\65";
 }
-
 .icon-envelope:before {
-    content: "\66";
+  content: "\66";
 }
-
 .icon-question:before {
-    content: "\67";
+  content: "\67";
 }
-
 .icon-comments:before {
-    content: "\68";
+  content: "\68";
+}
+.icon-youtube:before {
+  content: "\61";
 }
