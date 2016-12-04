@@ -6,6 +6,7 @@ module.exports =  Backbone.View.extend({
 
     initialize() {
         this.initializePhotoset();
+        this.initializeGallery();
     },
 
     initializePhotoset() {
@@ -14,6 +15,16 @@ module.exports =  Backbone.View.extend({
         if ($photoset.length) {
             this.photosetView = new PhotosetView({ el: $photoset });
         }
+    },
+
+    initializeGallery() {
+        $(this.el).magnificPopup({
+            delegate: '.photo',
+            type: 'image',
+            gallery: {
+                enabled: true
+            }
+        });
     }
 
 });

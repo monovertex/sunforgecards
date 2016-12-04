@@ -201,6 +201,8 @@ module.exports = function (grunt) {
                 files: {
                     '<%= paths.dist.assets %>vendor.js': [
                         '<%= paths.bower %>jquery/dist/jquery.js',
+                        '<%= paths.bower %>fastclick/lib/fastclick.js',
+                        '<%= paths.bower %>magnific-popup/dist/jquery.magnific-popup.js',
                     ]
                 }
             },

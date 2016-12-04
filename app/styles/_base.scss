@@ -2,6 +2,7 @@
 a {
     transition: color $transition-speed;
     color: $color-grey;
+    outline: none !important;
 
     &:focus,
     &:visited,
