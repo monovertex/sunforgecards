@@ -56,14 +56,21 @@ function _iteratePosts(resolve, reject,
                         // URL is from YouTube or not.
                         if (post.type === 'video') {
                             let url = post.permalink_url ||
-                                post.video_url;
+                                    post.video_url,
+                                isYoutube = false;
 
-                            url = url.replace('www.youtube.com/watch?v=',
-                                'www.youtube.com/embed/');
+                            url = decodeURI(url);
+
+                            let m = /www\.youtube\.com\/watch\?v=(.*?)$/ig.exec(url);
+
+                            if (m) {
+                                url = m[1];
+                                isYoutube = true;
+                            }
 
                             postInstance.set({
                                 video: url,
-                                isYoutube: url.indexOf('yout') !== -1
+                                isYoutube: isYoutube
                             });
 
                         // For photo posts, download all the photos and save
