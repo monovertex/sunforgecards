@@ -1,7 +1,6 @@
 {
     "predef": [
-        "document", "window", "module", "require",
-        "$", "jQuery", "FastClick"
+        "document", "window", "module", "require", "global"
     ],
     "browser": true,
     "boss": true,

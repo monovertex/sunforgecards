@@ -1,6 +1,7 @@
 
 let Backbone = require('backbone');
 let PhotosetView = require('./photoset');
+require('magnific-popup');
 
 module.exports =  Backbone.View.extend({
 
@@ -18,7 +19,7 @@ module.exports =  Backbone.View.extend({
     },
 
     initializeGallery() {
-        $(this.el).magnificPopup({
+        this.$el.magnificPopup({
             delegate: '.photo',
             type: 'image',
             gallery: {

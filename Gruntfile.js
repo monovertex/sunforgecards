@@ -190,35 +190,34 @@ module.exports = function (grunt) {
             }
         },
 
-        uglify: {
-            vendorDev: {
-                options: {
-                    compress: false,
-                    mangle: false,
-                    beautify: true,
-                    sourceMap: true
-                },
-                files: {
-                    '<%= paths.dist.assets %>vendor.js': [
-                        '<%= paths.bower %>jquery/dist/jquery.js',
-                        '<%= paths.bower %>fastclick/lib/fastclick.js',
-                        '<%= paths.bower %>magnific-popup/dist/jquery.magnific-popup.js',
-                    ]
-                }
-            },
-            vendorProd: {
-                options: {
-                    mangle: {},
-                    screwIE8: true,
-                    preserveComments: false,
-                    compress: {
-                        drop_console: true
-                    },
-                    sourceMap: true,
-                },
-                files: '<%= uglify.vendorDev.files %>'
-            },
-        },
+        // uglify: {
+        //     vendorDev: {
+        //         options: {
+        //             compress: false,
+        //             mangle: false,
+        //             beautify: true,
+        //             sourceMap: true
+        //         },
+        //         files: {
+        //             '<%= paths.dist.assets %>vendor.js': [
+        //                 '<%= paths.bower %>fastclick/lib/fastclick.js',
+        //                 '<%= paths.bower %>magnific-popup/dist/jquery.magnific-popup.js',
+        //             ]
+        //         }
+        //     },
+        //     vendorProd: {
+        //         options: {
+        //             mangle: {},
+        //             screwIE8: true,
+        //             preserveComments: false,
+        //             compress: {
+        //                 drop_console: true
+        //             },
+        //             sourceMap: true,
+        //         },
+        //         files: '<%= uglify.vendorDev.files %>'
+        //     },
+        // },
 
         // Cleanup dist files.
         clean: {
@@ -427,14 +426,14 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.registerTask('scripts', ['jshint:dev', 'browserify:dev']);
-    grunt.registerTask('scriptsVendor', ['uglify:vendorDev']);
+    // grunt.registerTask('scriptsVendor', ['uglify:vendorDev']);
 
     grunt.registerTask('styles', ['sass:dev', 'postcss:dev']);
 
     grunt.registerTask('templates:dev', pugTargets.devTargets);
     grunt.registerTask('templates:prod', pugTargets.prodTargets);
 
-    grunt.registerTask('default', ['clean', 'styles', 'scripts', 'scriptsVendor',
+    grunt.registerTask('default', ['clean', 'styles', 'scripts',
         'templates:dev', 'copy']);
 
     grunt.registerTask('serve', ['default', 'connect:server', 'watch']);
@@ -445,7 +444,7 @@ module.exports = function (grunt) {
         'sass:prod', 'postcss:prod',
 
         // Scripts
-        'jshint:prod', 'browserify:prod', 'uglify:vendorProd',
+        'jshint:prod', 'browserify:prod',
 
         // Copy public files
         'copy',

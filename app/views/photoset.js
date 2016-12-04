@@ -1,6 +1,7 @@
 
 let Backbone = require('backbone');
 let _ = require('lodash');
+let $ = require('jquery');
 let cssFlex = require('../utils/css-flex');
 
 let PhotosetView = Backbone.View.extend({

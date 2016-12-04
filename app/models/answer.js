@@ -1,4 +1,4 @@
-var Post = require('./post');
+let Post = require('./post');
 
 module.exports = Post.extend({
 
