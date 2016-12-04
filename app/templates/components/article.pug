@@ -14,8 +14,7 @@ mixin post(data, moment)
                                     img(src=url)
             else if data.video
                 .video-wrapper
-                    .media-container
-                        +video(data.isYoutube, data.video)
+                    +video(data.isYoutube, data.video)
 
         section.post-caption!= data.caption
 

@@ -4,14 +4,14 @@ let _ = require('lodash');
 let $ = require('jquery');
 let cssFlex = require('../utils/css-flex');
 
-let PhotosetView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
 
     events: {
         'mouseover .photo': 'photoMouseover'
     },
 
     initialize() {
-        _.bindAll(this, 'photoMouseover');
+        _.bindAll(this, 'photoMouseover', 'openNext');
 
         this.$('.photo').each((index, photo) => {
             let $photo = $(photo),
@@ -20,7 +20,6 @@ let PhotosetView = Backbone.View.extend({
             $photo.data('real-width', realWidth);
         });
 
-        PhotosetView.registerPhotoset(this);
         this.openNext();
     },
 
@@ -56,38 +55,4 @@ let PhotosetView = Backbone.View.extend({
         this.open($(ev.currentTarget));
     }
 
-}, {
-
-    initializeAutoOpen() {
-        if (!PhotosetView.autoOpenInterval) {
-            PhotosetView.autoOpenInterval = setInterval(PhotosetView.autoOpen, 5000);
-            PhotosetView.photosets = [];
-        }
-    },
-
-    registerPhotoset(photoset) {
-        PhotosetView.initializeAutoOpen();
-        PhotosetView.photosets.push(photoset);
-    },
-
-    autoOpen() {
-        let scrollTop = $(window).scrollTop(),
-            scrollBottom = scrollTop + $(window).height();
-
-        _.each(PhotosetView.photosets, (photoset) => {
-            let top, bottom, $el = photoset.$el;
-
-            if (!$el.is(':hover')) {
-                top = $el.offset().top;
-                bottom = top + $el.outerHeight();
-
-                if (bottom > scrollTop && top < scrollBottom) {
-                    photoset.openNext();
-                }
-            }
-        });
-    }
-
 });
-
-module.exports = PhotosetView;
