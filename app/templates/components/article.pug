@@ -1,7 +1,7 @@
 include video.pug
 include media-button.pug
 
-mixin post(data)
+mixin post(data, moment)
     article.post
         section.post-content
             if data.photos
@@ -30,8 +30,9 @@ mixin post(data)
                         'Leave a comment', 'icon-comments')
 
                 .col-xs-4.text-right
-                    a(href='#')
-                        = "date posted"
+                    - date = moment(data.date).fromNow()
+
+                    a(href='#')= date
 
         aside.post-tags
             each tag in data.tags
