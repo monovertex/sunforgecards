@@ -9,9 +9,11 @@ require('magnific-popup');
 let PostView =  Backbone.View.extend({
 
     initialize() {
-        this.initializePhotoset();
         this.initializeGallery();
+
+        this.initializePhotoset();
         this.initializeVideo();
+
         PostView.registerPost(this);
     },
 
@@ -20,7 +22,9 @@ let PostView =  Backbone.View.extend({
 
         if ($photoset.length) {
             this.photosetView = new PhotosetView({ el: $photoset });
-            this.on('onviewportin', this.photosetView.openNext);
+            this.on('onviewportvisible', this.photosetView.onVisible);
+
+            this.$viewportTarget = $photoset;
         }
     },
 
@@ -31,6 +35,8 @@ let PostView =  Backbone.View.extend({
             this.videoView = new VideoView({ el: $video });
             this.on('onviewportin', this.videoView.play);
             this.on('onviewportout', this.videoView.pause);
+
+            this.$viewportTarget = $video;
         }
     },
 
@@ -46,11 +52,9 @@ let PostView =  Backbone.View.extend({
 
 }, {
 
-    currentPost: null,
-
     initializeActiveInterval() {
         if (!PostView.activeInterval) {
-            PostView.activeInterval = setInterval(PostView.checkActive, 5000);
+            PostView.activeInterval = setInterval(PostView.checkActive, 100);
             PostView.posts = [];
         }
     },
@@ -62,26 +66,28 @@ let PostView =  Backbone.View.extend({
 
     checkActive() {
         let scrollTop = $(window).scrollTop(),
-            scrollBottom = scrollTop + $(window).height(),
-            currentPost = null;
+            scrollBottom = scrollTop + $(window).height();
 
         _.each(PostView.posts, (post) => {
-            let top, bottom, $el = post.$el;
+            let $el = post.$viewportTarget || post.$el,
+                top = $el.offset().top,
+                bottom = top + $el.outerHeight(),
+                visiblePercent = Math.max(0, Math.min(scrollBottom, bottom) -
+                    Math.max(scrollTop, top)) / (bottom - top);
 
-            if (!$el.is(':hover')) {
-                top = $el.offset().top;
-                bottom = top + $el.outerHeight();
 
-                if (bottom > scrollTop && top < scrollBottom) {
+            if (visiblePercent > 0.7) {
+                if (!post._isViewportVisible) {
                     post.trigger('onviewportin');
-                    currentPost = post;
-                } else if (post === PostView.currentPost) {
-                    post.trigger('onviewportout');
                 }
+
+                post.trigger('onviewportvisible');
+                post._isViewportVisible = true;
+            } else if (post._isViewportVisible) {
+                post.trigger('onviewportout');
+                post._isViewportVisible = false;
             }
         });
-
-        PostView.currentPost = currentPost;
     }
 
 });

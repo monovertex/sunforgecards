@@ -37,7 +37,7 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.17.0",
     "node-bourbon": "^4.2.8",
-    "pathmodify": "^0.5.0",
+    "plyr": "^2.0.11",
     "time-grunt": "^1.4.0",
     "tumblr.js": "^1.1.1",
     "uglifyify": "^3.0.3"

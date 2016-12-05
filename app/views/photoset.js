@@ -11,7 +11,7 @@ module.exports = Backbone.View.extend({
     },
 
     initialize() {
-        _.bindAll(this, 'photoMouseover', 'openNext');
+        _.bindAll(this, 'photoMouseover', 'onVisible', 'openNext');
 
         this.$('.photo').each((index, photo) => {
             let $photo = $(photo),
@@ -21,6 +21,17 @@ module.exports = Backbone.View.extend({
         });
 
         this.openNext();
+
+        this.throttledOpenNext = _.throttle(this.openNext, 5000, {
+            leading: false,
+            trailing: true
+        });
+    },
+
+    onVisible() {
+        if (!this.$el.is(':hover')) {
+            this.throttledOpenNext();
+        }
     },
 
     open($photos) {

@@ -12,15 +12,31 @@ module.exports = Backbone.View.extend({
         this.plyr = plyr.setup(this.el, {
             volume: 0
         })[0];
+
+        this.delays = {};
+
+        this.plyr.on('ended', this.play);
+    },
+
+    delay(callback) {
+        if (this.actionDelay) {
+            clearTimeout(this.actionDelay);
+        }
+
+        this.actionDelay = setTimeout(callback, 200);
     },
 
     play() {
-        this.plyr.setVolume(0);
-        this.plyr.play();
+        this.delay(() => {
+            this.plyr.setVolume(0);
+            this.plyr.play();
+        });
     },
 
     pause() {
-        this.plyr.pause();
+        this.delay(() => {
+            this.plyr.pause();
+        });
     }
 
 });
