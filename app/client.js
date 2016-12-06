@@ -2,6 +2,7 @@
 let PostView = require('./views/post');
 let $ = require('jquery');
 let attachFastClick = require('fastclick');
+require('./utils/disqus');
 
 attachFastClick(document.body);
 

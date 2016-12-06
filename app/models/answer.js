@@ -1,5 +1,5 @@
-let Post = require('./post');
+let Backbone = require('backbone');
 
-module.exports = Post.extend({
+module.exports = Backbone.Model.extend({
 
 });

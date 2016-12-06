@@ -7,8 +7,4 @@ module.exports = {
         token_secret: '9prO2A0kKKoGP4DgVRmAdg8oxE4lJHZsA3KAaa2X6anxqO5xJH'
     },
     blog: 'sunforgecards.tumblr.com',
-    paths: {
-        data: '../data',
-        photos: '../data/photos'
-    }
 };

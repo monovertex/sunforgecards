@@ -9,8 +9,12 @@ let fs = require('fs');
 let path = require('path');
 let url = require('url');
 let mkdirp = require('mkdirp');
+let removeMarkdown = require('remove-markdown');
 
-const C = require('./constants');
+let projectPath = path.join(__dirname, '..');
+let dataPath = path.join(projectPath, 'data');
+
+let C = require('./constants');
 
 let client = tumblr.createClient({ credentials: C.credentials });
 
@@ -49,7 +53,8 @@ function _iteratePosts(resolve, reject,
                             date: post.date,
                             type: post.type,
                             tags: post.tags,
-                            caption: post.caption
+                            caption: post.caption,
+                            summary: removeMarkdown(post.summary)
                         });
 
                         // For video posts, grab their URL and determine if the
@@ -84,8 +89,8 @@ function _iteratePosts(resolve, reject,
                                     .replace('https', 'http');
                                 let sourceFilename = path.basename(
                                     url.parse(sourceUrl).pathname);
-                                let destPath = path.join(C.paths.photos, String(post.id),
-                                    sourceFilename);
+                                let destPath = path.join(dataPath, 'photos',
+                                    String(post.id), sourceFilename);
 
                                 // Make sure the entire path exists.
                                 mkdirp(path.dirname(destPath));
@@ -142,8 +147,8 @@ function iteratePosts() {
 
 // Iterate all the posts and save the data to disk.
 iteratePosts().then(({ posts, answers }) => {
-    let postsPath = path.join(C.paths.data, 'posts.json');
-    let answersPath = path.join(C.paths.data, 'answers.json');
+    let postsPath = path.join(dataPath, 'posts.json');
+    let answersPath = path.join(dataPath, 'answers.json');
 
     fs.writeFile(postsPath, JSON.stringify(posts.toJSON()), 'utf8');
     fs.writeFile(answersPath, JSON.stringify(answers.toJSON()), 'utf8');

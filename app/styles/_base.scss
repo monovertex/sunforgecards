@@ -9,6 +9,7 @@ a {
     &:hover,
     &:active {
         text-decoration: none;
+        color: $color-grey;
     }
 
     &:hover {

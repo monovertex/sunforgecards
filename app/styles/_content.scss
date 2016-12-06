@@ -134,10 +134,11 @@
         .post-tags {
             margin-top: 5px;
 
-            a {
+            .tag {
                 margin-right: $padding-base-horizontal;
                 display: inline-block;
                 white-space: nowrap;
+                color: $color-grey;
             }
         }
     }

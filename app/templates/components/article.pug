@@ -21,18 +21,24 @@ mixin post(data, moment)
         footer.post-footer
             .row
                 .col-xs-8.text-left
-                    +media-button('#',
-                        'Share it on Facebook!', 'icon-facebook')
-                    +media-button('#',
-                        'Tweet about it!', 'icon-twitter')
-                    +media-button('#',
-                        'Leave a comment', 'icon-comments')
+                    - summary = encodeURIComponent(data.summary)
+                    - shortURL = 'https://sunforgecards.com' + data.shortURL
+                    - encodedShortURL = encodeURIComponent(shortURL)
+
+                    +media-button('https://www.facebook.com/sharer.php?' +
+                        'u=' + encodedShortURL,
+                        'Share it on Facebook!', 'icon-facebook', true)
+                    +media-button('https://twitter.com/share?' +
+                        'text=' + summary + '&url=' +  encodedShortURL +
+                        '&via=sunforgecards',
+                        'Tweet about it!', 'icon-twitter', true)
+                    +media-button(data.url, 'Leave a comment', 'icon-comments')
 
                 .col-xs-4.text-right
                     - date = moment(data.date).fromNow()
 
-                    a(href='#')= date
+                    a(href=data.url)= date
 
         aside.post-tags
             each tag in data.tags
-                a.tag(href='#')!='#' + tag
+                .tag!= '#' + tag

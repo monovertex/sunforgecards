@@ -59,7 +59,7 @@ module.exports = function (grunt) {
     var pugTargets = mergeTargets(
         generatePugTargets('index', '', '<%= paths.app.templates %>index.pug', posts),
         ...(_.map(posts, (post) => generatePugTargets(
-            post.id, 'posts/', '<%= paths.app.templates %>post.pug', post)))
+            post.id, 'post/', '<%= paths.app.templates %>post.pug', post)))
     );
 
     require('time-grunt')(grunt);
@@ -124,34 +124,6 @@ module.exports = function (grunt) {
         // Transpile and bundle.
         browserify: {
             options: {
-                plugin: [
-                    // ['pathmodify', {
-                    //     mods: [
-                    //         /**
-                    //          * Changes the paths of the files to allow for
-                    //          * imports relative to the root of the project, instead
-                    //          * of './././'-style paths (relative to the importing
-                    //          * file).
-                    //          * @param {Object} rec Alias module paths
-                    //          * @return {Object} Real module paths
-                    //          */
-                    //         function (rec) {
-                    //             var alias = {},
-                    //                 prefix = 'app/';
-
-                    //             if (rec.id.indexOf(prefix) === 0) {
-                    //                 alias.id = path.join(
-                    //                     path.resolve(),
-                    //                     rec.id
-                    //                 );
-                    //                 return alias;
-                    //             }
-
-                    //             return rec;
-                    //         }
-                    //     ]
-                    // }]
-                ],
             },
             dev: {
                 options: {
@@ -190,35 +162,6 @@ module.exports = function (grunt) {
                 files: '<%= browserify.dev.files %>'
             }
         },
-
-        // uglify: {
-        //     vendorDev: {
-        //         options: {
-        //             compress: false,
-        //             mangle: false,
-        //             beautify: true,
-        //             sourceMap: true
-        //         },
-        //         files: {
-        //             '<%= paths.dist.assets %>vendor.js': [
-        //                 '<%= paths.bower %>fastclick/lib/fastclick.js',
-        //                 '<%= paths.bower %>magnific-popup/dist/jquery.magnific-popup.js',
-        //             ]
-        //         }
-        //     },
-        //     vendorProd: {
-        //         options: {
-        //             mangle: {},
-        //             screwIE8: true,
-        //             preserveComments: false,
-        //             compress: {
-        //                 drop_console: true
-        //             },
-        //             sourceMap: true,
-        //         },
-        //         files: '<%= uglify.vendorDev.files %>'
-        //     },
-        // },
 
         // Cleanup dist files.
         clean: {
@@ -345,30 +288,30 @@ module.exports = function (grunt) {
             }
         },
 
-        // critical: {
-        //     main: {
-        //         options: {
-        //             base: './',
-        //             css: [
-        //                 '<%= targets.dist.assets %>main.css'
-        //             ],
-        //             dimensions: [{
-        //                 width: 1920,
-        //                 height: 1800
-        //             },
-        //             {
-        //                 width: 1366,
-        //                 height: 700
-        //             },
-        //             {
-        //                 width: 500,
-        //                 height: 900
-        //             }]
-        //         },
-        //         src: '<%= targets.dist.base %>index.html',
-        //         dest: '<%= targets.dist.base %>index.html'
-        //     }
-        // },
+        critical: {
+            options: {
+                base: './',
+                css: [
+                    '<%= paths.dist.assets %>app.css'
+                ],
+                dimensions: [{
+                    width: 1920,
+                    height: 1800
+                },
+                {
+                    width: 1366,
+                    height: 700
+                },
+                {
+                    width: 500,
+                    height: 900
+                }]
+            },
+            index: {
+                src: '<%= paths.dist.base %>index.html',
+                dest: '<%= paths.dist.base %>index.html'
+            }
+        },
 
         // Live compilation.
         watch: {
@@ -411,14 +354,13 @@ module.exports = function (grunt) {
             }
         },
 
-        // Dev server.
-        connect: {
-            server: {
+        express: {
+            options: {
+                // Override defaults here
+            },
+            dev: {
                 options: {
-                    livereload: true,
-                    port: 8000,
-                    hostname: '*',
-                    base: '<%= paths.dist.base %>'
+                    script: '<%= paths.app.base %>server.js'
                 }
             }
         }
@@ -437,7 +379,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['clean', 'styles', 'scripts',
         'templates:dev', 'copy']);
 
-    grunt.registerTask('serve', ['default', 'connect:server', 'watch']);
+    grunt.registerTask('serve', ['default', 'express', 'watch']);
 
     // Production ready task.
     grunt.registerTask('prod', ['clean',
@@ -451,7 +393,7 @@ module.exports = function (grunt) {
         'copy',
 
         // Templates
-        'templates:prod',
+        'templates:prod', 'critical',
 
         // Compression
         'htmlmin', 'compress', 'imagemin']);

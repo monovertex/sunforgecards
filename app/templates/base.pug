@@ -11,12 +11,11 @@ html
         content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
     )
 
-    title= pageTitle
+    title= 'Sunforge Cards'
 
-    link(rel='shortcut icon' href='/favicon.png')
+    link(rel='shortcut icon' href='/assets/images/favicon.png')
 
-    if debug
-        link(rel='stylesheet' href='/assets/app.css')
+    link(rel='stylesheet' href='/assets/app.css')
 
     body
         .global-wrapper
@@ -68,8 +67,7 @@ html
             .content-column
                 block content
 
-        script(src='/assets/app.js')
-        //- script(src='/assets/vendor.js')
+        script(src='/assets/app.js' async=true)
 
         if debug
             script(src='//localhost:35729/livereload.js')

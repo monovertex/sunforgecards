@@ -11,8 +11,8 @@ app.enable('strict routing');
 
 // Create the router using the same routing options as the app.
 var router = express.Router({
-    caseSensitive: app.get('case sensitive routing'),
-    strict       : app.get('strict routing')
+    caseSensitive   : app.get('case sensitive routing'),
+    strict          : app.get('strict routing')
 });
 
 // Add the `slash()` middleware after your app's `router`, optionally specify
@@ -27,7 +27,7 @@ _.each(['assets', 'photos'], (static) => {
 app.get('/post/:id/:slug/',function(req, res){
     let { id, slug } = req.params;
 
-    res.sendFile(path.join(distPath, 'posts', `${id}-${slug}.html`));
+    res.sendFile(path.join(distPath, 'post', `${id}-${slug}.html`));
 });
 
 app.get('/',function(req, res){
