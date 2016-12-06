@@ -12,7 +12,8 @@ module.exports = function (grunt) {
     function generatePugTargets(id, path, template, data) {
         var devKey = `dev${id}`,
             prodKey = `prod${id}`,
-            distPath = `<%= paths.dist.base %>${path ? path : ''}${id}.html`,
+            slug = data.slug ? `-${data.slug}` : '',
+            distPath = `<%= paths.dist.base %>${path ? path : ''}${id}${slug}.html`,
             templateData = { data, qa, moment };
 
         return {
@@ -164,7 +165,7 @@ module.exports = function (grunt) {
                 },
                 files: {
                     '<%= paths.dist.assets %>app.js': [
-                        '<%= paths.app.base %>app.js',
+                        '<%= paths.app.base %>client.js',
                     ]
                 }
             },

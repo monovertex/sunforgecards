@@ -1,6 +1,6 @@
 {
     "predef": [
-        "document", "window", "module", "require", "global"
+        "document", "window", "module", "require", "global", "__dirname"
     ],
     "browser": true,
     "boss": true,
