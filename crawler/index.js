@@ -126,14 +126,14 @@ function _iteratePosts(resolve, reject,
             }
         }
 
-        resolve({ posts, answers });
+        // resolve({ posts, answers });
 
-        // if (data.posts.length < limit) {
-        //     resolve({ posts, answers });
-        // } else {
-        //     _iteratePosts(resolve, reject, posts, answers,
-        //         offset + data.posts.length);
-        // }
+        if (data.posts.length < limit) {
+            resolve({ posts, answers });
+        } else {
+            _iteratePosts(resolve, reject, posts, answers,
+                offset + data.posts.length);
+        }
     });
 }
 
