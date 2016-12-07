@@ -7,14 +7,14 @@ module.exports = function (grunt) {
     var moment = require('moment');
 
     var posts = require('./data/posts.json');
-    var qa = require('./data/answers.json');
+    var answers = require('./data/answers.json');
 
-    function generatePugTargets(id, path, template, data) {
+    function generatePugTargets(id, path, template, data, options={}) {
         var devKey = `dev${id}`,
             prodKey = `prod${id}`,
             slug = data.slug ? `-${data.slug}` : '',
             distPath = `<%= paths.dist.base %>${path ? path : ''}${id}${slug}.html`,
-            templateData = { data, qa, moment };
+            templateData = { data, answers, moment, options };
 
         return {
             targets: {
@@ -22,18 +22,18 @@ module.exports = function (grunt) {
                     options: {
                         pretty: true,
                         compileDebug: true,
-                        data: _.merge({
+                        data: _.merge({ options: {
                             debug: true
-                        }, templateData)
+                        }}, templateData)
                     },
                     files: { [distPath]: template }
                 },
                 [prodKey]: {
                     options: {
                         pretty: false,
-                        data: _.merge({
+                        data: _.merge({ options: {
                             debug: false
-                        }, templateData)
+                        }}, templateData)
                     },
                     files: `<%= pug.${devKey}.files %>`
                 }
@@ -58,6 +58,10 @@ module.exports = function (grunt) {
 
     var pugTargets = mergeTargets(
         generatePugTargets('index', '', '<%= paths.app.templates %>index.pug', posts),
+        generatePugTargets('ask', '', '<%= paths.app.templates %>ask.pug', answers, {
+            hideAnswers: true
+        }),
+
         ...(_.map(posts, (post) => generatePugTargets(
             post.id, 'post/', '<%= paths.app.templates %>post.pug', post)))
     );

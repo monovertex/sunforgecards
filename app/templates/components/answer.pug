@@ -1,0 +1,10 @@
+
+
+mixin answer(data, moment)
+    - date = moment(data.date).fromNow()
+
+    .qa-item
+        .date= date
+        .question= data.question
+        .answer-header= 'Answer:'
+        .answer!= data.answer

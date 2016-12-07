@@ -1,5 +1,7 @@
 extends base.pug
 
+include components/article.pug
+
 block content
     each item in data
         +post(item, moment)

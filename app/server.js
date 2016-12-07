@@ -49,6 +49,10 @@ app.get('/',function(req, res){
     res.sendFile(path.join(distPath, 'index.html'));
 });
 
+app.get('/ask',function(req, res){
+    res.sendFile(path.join(distPath, 'ask.html'));
+});
+
 app.listen(8000);
 
 console.log('Express.js listening on port 8000');
