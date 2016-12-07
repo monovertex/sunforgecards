@@ -4,8 +4,10 @@ let app     = express();
 let path    = require('path');
 let _       = require('lodash');
 let slash   = require('express-slash');
+let glob    = require('glob');
 
 let distPath = path.join(__dirname, '..', 'dist');
+let postPath = path.join(distPath, 'post');
 
 app.enable('strict routing');
 
@@ -27,7 +29,20 @@ _.each(['assets', 'photos'], (static) => {
 app.get('/post/:id/:slug/',function(req, res){
     let { id, slug } = req.params;
 
-    res.sendFile(path.join(distPath, 'post', `${id}-${slug}.html`));
+    res.sendFile(path.join(postPath, `${id}-${slug}.html`));
+});
+
+app.get('/post/:id/',function(req, res){
+    let { id } = req.params;
+
+    glob(path.join(postPath, `${id}-*.html`), {}, function (er, files) {
+        if (files.length) {
+            let re = new RegExp(`/${id}-(.*?).html$`, 'gi'),
+                match = re.exec(files[0]);
+
+            res.redirect(`/post/${id}/${match[1]}/`);
+        }
+    });
 });
 
 app.get('/',function(req, res){

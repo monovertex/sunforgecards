@@ -17,6 +17,7 @@
     "express-slash": "^2.0.1",
     "extend": "^3.0.0",
     "fastclick": "^1.0.6",
+    "glob": "^7.1.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",
