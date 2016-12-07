@@ -19,14 +19,14 @@ html
 
     body
         .global-wrapper
-            aside.sidebar-column
-                header.logo-wrapper
-                    a(href='/')
-                        img.logo.img-responsive(
-                            src='/assets/images/logo.png'
-                            alt='Sunforge Cards')
+            aside.sidebar-column#sidebar
+                .navbar#navbar
+                    header.logo-wrapper
+                        a(href='/')
+                            img.logo.img-responsive(
+                                src='/assets/images/logo.png'
+                                alt='Sunforge Cards')
 
-                .navbar
                     nav.navigation
                         div.navigation-inner
                             +nav-link('http://yt.sunforgecards.com', 'youtube',
