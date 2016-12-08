@@ -3,7 +3,7 @@ extends base.pug
 include components/article.pug
 
 block content
-    - posts = data.slice(0, 20)
+    - posts = data.slice(0, 50)
 
     each item in posts
         +post(item, moment)

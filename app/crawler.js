@@ -63,20 +63,26 @@ function _iteratePosts(resolve, reject,
                         if (post.type === 'video') {
                             let url = post.permalink_url ||
                                     post.video_url,
-                                isYoutube = false;
+                                videoType = 'tumblr';
 
                             url = decodeURI(url);
 
+                            // YouTube matching.
                             let m = /www\.youtube\.com\/watch\?v=(.*?)$/ig.exec(url);
 
                             if (m) {
                                 url = m[1];
-                                isYoutube = true;
+                                videoType = 'youtube';
+                            }
+
+                            // Instagram matching.
+                            if (url.includes('instagram')) {
+                                videoType = 'instagram';
                             }
 
                             postInstance.set({
                                 video: url,
-                                isYoutube: isYoutube
+                                videoType: videoType
                             });
 
                         // For photo posts, download all the photos and save

@@ -22,8 +22,7 @@ mixin post(data, moment)
                                     a.photo(href=url, style=style)
 
             else if data.video
-                .video-wrapper
-                    +video(data.isYoutube, data.video)
+                +video(data.videoType, data.video)
 
         section.post-caption!= data.caption
 

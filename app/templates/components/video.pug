@@ -1,8 +1,15 @@
 
+include iframe
 
-mixin video(isYoutube, url)
-    if isYoutube
-        div(data-type='youtube' data-video-id=url)
-    else
-        video(controls=true)
-            source(src=url type='video/mp4')
+mixin video(videoType, url)
+    if videoType === 'youtube' || videoType === 'tumblr'
+        .video-wrapper
+            if videoType === 'youtube'
+                div(data-type='youtube' data-video-id=url)
+            else
+                video(controls=true)
+                    source(src=url type='video/mp4')
+
+    else if videoType === 'instagram'
+        .instagram-iframe-wrapper
+            +iframe(url, 'instagram-iframe')

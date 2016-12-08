@@ -27,11 +27,7 @@
                     height: 0;
 
                     .photo-inner {
-                        position: absolute;
-                        width: 100% !important;
-                        height: 100% !important;
-                        left: 0;
-                        top: 0;
+                        @include cover-absolute;
                         overflow: hidden;
 
                         iframe {
@@ -40,14 +36,6 @@
                         }
                     }
                 }
-
-                // .instagram-container {
-                //     text-align: center;
-
-                //     .instagram-media {
-                //         margin: 0 auto !important;
-                //     }
-                // }
             }
 
             .photo-wrapper {
@@ -109,6 +97,19 @@
                         background-repeat: no-repeat;
                         background-position: center;
                     }
+                }
+            }
+
+            .instagram-iframe-wrapper {
+                overflow: hidden;
+                width: 100%;
+                position: relative;
+                padding-bottom: 112%;
+                height: 0;
+
+                .instagram-iframe {
+                    @include cover-absolute;
+                    overflow: hidden;
                 }
             }
         }
