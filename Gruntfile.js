@@ -15,7 +15,13 @@ module.exports = function (grunt) {
             prodKey = `prod${id}`,
             slug = data.slug ? `-${data.slug}` : '',
             distPath = `<%= paths.dist.base %>${path ? path : ''}${id}${slug}.html`,
-            templateData = { data, answers, moment, options };
+            templateData = {
+                data,
+                serializedData: JSON.stringify(data).replace(/<\//g, "<\\/"),
+                answers,
+                moment,
+                options
+            };
 
         return {
             targets: {

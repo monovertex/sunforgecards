@@ -4,18 +4,21 @@ include components/answer.pug
 doctype html
 
 html
-    meta(charset='utf-8')
-    meta(http-equiv='x-ua-compatible' content='ie-edge')
-    meta(
-        name='viewport'
-        content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-    )
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='x-ua-compatible' content='ie-edge')
+        meta(
+            name='viewport'
+            content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+        )
 
-    title= 'Sunforge Cards'
+        title= 'Sunforge Cards'
 
-    link(rel='shortcut icon' href='/assets/images/favicon.png')
+        link(rel='shortcut icon' href='/assets/images/favicon.png')
 
-    link(rel='stylesheet' href='/assets/app.css')
+        link(rel='stylesheet' href='/assets/app.css')
+
+        block head
 
     body
         .global-wrapper
