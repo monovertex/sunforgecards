@@ -1,22 +1,20 @@
 /*jshint loopfunc: true */
 
-let tumblr = require('tumblr.js');
-let PostCollection = require('../app/collections/posts');
-let AnswerCollection = require('../app/collections/answers');
-let Post = require('../app/models/post');
-let http = require('http');
-let fs = require('fs');
-let path = require('path');
-let url = require('url');
-let mkdirp = require('mkdirp');
-let removeMarkdown = require('remove-markdown');
+let tumblr              = require('tumblr.js');
+let PostCollection      = require('./collections/posts');
+let AnswerCollection    = require('./collections/answers');
+let Post                = require('./models/post');
+let http                = require('http');
+let fs                  = require('fs');
+let path                = require('path');
+let url                 = require('url');
+let mkdirp              = require('mkdirp');
+let removeMarkdown      = require('remove-markdown');
+let credentials         = require('./credentials');
+let settings            = require('./settings');
 
-let projectPath = path.join(__dirname, '..');
-let dataPath = path.join(projectPath, 'data');
 
-let C = require('./constants');
-
-let client = tumblr.createClient({ credentials: C.credentials });
+let client = tumblr.createClient({ credentials: credentials.tumblr });
 
 /**
  * Iterates the posts returned by the API calls and the resolves the promise
@@ -35,7 +33,7 @@ function _iteratePosts(resolve, reject,
     console.log(`--- Fetching posts from ${offset} to ${(offset + limit)} ---`);
 
     // Execute the API call.
-    client.blogPosts(C.blog, { offset, limit }, (err, data) => {
+    client.blogPosts(settings.blog, { offset, limit }, (err, data) => {
         if (data.posts.length) {
             for (let post of data.posts) {
 
@@ -89,7 +87,7 @@ function _iteratePosts(resolve, reject,
                                     .replace('https', 'http');
                                 let sourceFilename = path.basename(
                                     url.parse(sourceUrl).pathname);
-                                let destPath = path.join(dataPath, 'photos',
+                                let destPath = path.join(settings.path.data, 'photos',
                                     String(post.id), sourceFilename);
 
                                 // Make sure the entire path exists.
@@ -147,8 +145,8 @@ function iteratePosts() {
 
 // Iterate all the posts and save the data to disk.
 iteratePosts().then(({ posts, answers }) => {
-    let postsPath = path.join(dataPath, 'posts.json');
-    let answersPath = path.join(dataPath, 'answers.json');
+    let postsPath = path.join(settings.path.data, 'posts.json');
+    let answersPath = path.join(settings.path.data, 'answers.json');
 
     fs.writeFile(postsPath, JSON.stringify(posts.toJSON()), 'utf8');
     fs.writeFile(answersPath, JSON.stringify(answers.toJSON()), 'utf8');

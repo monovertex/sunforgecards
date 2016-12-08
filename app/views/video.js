@@ -1,7 +1,7 @@
 
-let Backbone = require('backbone');
-let _ = require('lodash');
-let plyr = require('plyr');
+let Backbone    = require('backbone');
+let _           = require('lodash');
+let plyr        = require('plyr');
 
 module.exports = Backbone.View.extend({
 

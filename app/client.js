@@ -1,15 +1,13 @@
 
-let PostView = require('./views/post');
-let NavbarView = require('./views/navbar');
-
-let $ = require('jquery');
-let attachFastClick = require('fastclick');
-require('./utils/disqus');
+let PostView            = require('./views/post');
+let NavbarView          = require('./views/navbar');
+let $                   = require('jquery');
+let attachFastClick     = require('fastclick');
+                          require('./utils/disqus');
 
 attachFastClick(document.body);
 
 global.$ = global.jQuery = $;
-
 
 $(() => {
 

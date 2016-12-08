@@ -1,7 +1,7 @@
 
-let Backbone = require('backbone');
-let $ = require('jquery');
-let _ = require('lodash');
+let Backbone    = require('backbone');
+let $           = require('jquery');
+let _           = require('lodash');
 
 module.exports = Backbone.View.extend({
 

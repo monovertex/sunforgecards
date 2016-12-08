@@ -1,13 +1,11 @@
 
-let express = require('express');
-let app     = express();
-let path    = require('path');
-let _       = require('lodash');
-let slash   = require('express-slash');
-let glob    = require('glob');
-
-let distPath = path.join(__dirname, '..', 'dist');
-let postPath = path.join(distPath, 'post');
+let express     = require('express');
+let app         = express();
+let path        = require('path');
+let _           = require('lodash');
+let slash       = require('express-slash');
+let glob        = require('glob');
+let settings    = require('./settings');
 
 app.enable('strict routing');
 
@@ -23,19 +21,19 @@ app.use(router);
 app.use(slash());
 
 _.each(['assets', 'photos'], (static) => {
-    app.use(`/${static}`, express.static(path.join(distPath, static)));
+    app.use(`/${static}`, express.static(path.join(settings.path.dist, static)));
 });
 
 app.get('/post/:id/:slug/',function(req, res){
     let { id, slug } = req.params;
 
-    res.sendFile(path.join(postPath, `${id}-${slug}.html`));
+    res.sendFile(path.join(settings.path.post, `${id}-${slug}.html`));
 });
 
 app.get('/post/:id/',function(req, res){
     let { id } = req.params;
 
-    glob(path.join(postPath, `${id}-*.html`), {}, function (er, files) {
+    glob(path.join(settings.path.post, `${id}-*.html`), {}, function (er, files) {
         if (files.length) {
             let re = new RegExp(`/${id}-(.*?).html$`, 'gi'),
                 match = re.exec(files[0]);
@@ -46,11 +44,11 @@ app.get('/post/:id/',function(req, res){
 });
 
 app.get('/',function(req, res){
-    res.sendFile(path.join(distPath, 'index.html'));
+    res.sendFile(path.join(settings.path.dist, 'index.html'));
 });
 
 app.get('/ask',function(req, res){
-    res.sendFile(path.join(distPath, 'ask.html'));
+    res.sendFile(path.join(settings.path.dist, 'ask.html'));
 });
 
 app.listen(8000);

@@ -2,15 +2,16 @@
 module.exports = function (grunt) {
     'use strict';
 
-    var imageminOptipng = require('imagemin-optipng');
-    var _ = require('lodash');
-    var moment = require('moment');
-
-    var posts = require('./data/posts.json');
-    var answers = require('./data/answers.json');
+    let imageminOptipng     = require('imagemin-optipng');
+    let _                   = require('lodash');
+    let moment              = require('moment');
+    let path                = require('path');
+    let settings            = require('./app/settings');
+    let posts               = require(path.join(settings.path.data, 'posts.json'));
+    let answers             = require(path.join(settings.path.data, 'answers.json'));
 
     function generatePugTargets(id, path, template, data, options={}) {
-        var devKey = `dev${id}`,
+        let devKey = `dev${id}`,
             prodKey = `prod${id}`,
             slug = data.slug ? `-${data.slug}` : '',
             distPath = `<%= paths.dist.base %>${path ? path : ''}${id}${slug}.html`,
@@ -45,7 +46,7 @@ module.exports = function (grunt) {
 
     function mergeTargets(...targets) {
         return _.reduce(targets, (result, current) => {
-            var { targets, devKey, prodKey } = current;
+            let { targets, devKey, prodKey } = current;
 
             _.merge(result.targets, targets);
             result.devTargets.push(`pug:${devKey}`);
@@ -56,7 +57,7 @@ module.exports = function (grunt) {
     }
 
 
-    var pugTargets = mergeTargets(
+    let pugTargets = mergeTargets(
         generatePugTargets('index', '', '<%= paths.app.templates %>index.pug', posts),
         generatePugTargets('ask', '', '<%= paths.app.templates %>ask.pug', answers, {
             hideAnswers: true
@@ -74,16 +75,15 @@ module.exports = function (grunt) {
 
         // Define all the paths in the project.
         paths: {
-            base: './',
-            crawler: { base: './crawler/', },
-            bower: './bower_components/',
+            base: `${settings.path.project}/`,
+            bower: '<%= paths.base %>/bower_components/',
             dist: {
-                base: './dist/',
+                base: `${settings.path.dist}/`,
                 assets: '<%= paths.dist.base %>assets/',
                 photos: '<%= paths.dist.base %>photos/',
             },
             app: {
-                base: './app/',
+                base: `${settings.path.app}/`,
                 collections: '<%= paths.app.base %>collections/',
                 models: '<%= paths.app.base %>models/',
                 routers: '<%= paths.app.base %>routers/',
@@ -92,12 +92,12 @@ module.exports = function (grunt) {
                 views: '<%= paths.app.base %>views/',
             },
             data: {
-                base: './data/',
+                base: `${settings.path.data}/`,
                 photos: '<%= paths.data.base %>photos/'
             },
-            public: { base: './public/' },
+            public: { base: '<%= paths.base %>/public/' },
             tmp: {
-                base: './tmp/',
+                base: '<%= paths.base %>/tmp/',
                 app: '<%= paths.tmp.base %>app/'
             }
         },
@@ -113,7 +113,6 @@ module.exports = function (grunt) {
                 },
                 src: [
                     'Gruntfile.js',
-                    '<%= paths.crawler.base %>**/*.js',
                     '<%= paths.app.base %>**/*.js'
                 ]
             },

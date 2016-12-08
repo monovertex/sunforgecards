@@ -1,10 +1,10 @@
 
-let Backbone = require('backbone');
-let PhotosetView = require('./photoset');
-let VideoView = require('./video');
-let _ = require('lodash');
-let $ = require('jquery');
-require('magnific-popup');
+let Backbone        = require('backbone');
+let PhotosetView    = require('./photoset');
+let VideoView       = require('./video');
+let _               = require('lodash');
+let $               = require('jquery');
+                      require('magnific-popup');
 
 let PostView =  Backbone.View.extend({
 
