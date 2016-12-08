@@ -6,6 +6,7 @@ let _           = require('lodash');
 let slash       = require('express-slash');
 let glob        = require('glob');
 let settings    = require('./settings');
+let { postUrl } = require('./utils/post-url');
 
 app.enable('strict routing');
 
@@ -38,7 +39,7 @@ app.get('/post/:id/',function(req, res){
             let re = new RegExp(`/${id}-(.*?).html$`, 'gi'),
                 match = re.exec(files[0]);
 
-            res.redirect(`/post/${id}/${match[1]}/`);
+            res.redirect(postUrl(id, match[1]));
         }
     });
 });

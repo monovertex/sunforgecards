@@ -1,11 +1,13 @@
-let Backbone = require('backbone');
+let Backbone          = require('backbone');
+let { postUrl, postShortUrl } = require('../utils/post-url');
 
 module.exports = Backbone.Model.extend({
 
     initialize() {
-        let shortURL = `/post/${this.get('id')}/`;
-        let url = `${shortURL}${this.get('slug')}/`;
-        let summary = this.get('summary');
+        let id = this.get('id'), slug = this.get('slug'),
+            shortUrl = postShortUrl(id),
+            url = postUrl(id, slug),
+            summary = this.get('summary');
 
         if (summary) {
             summary = summary.replace(/[\n\t]+/g, ' - ').substring(0, 70) + ' […]';
@@ -13,7 +15,7 @@ module.exports = Backbone.Model.extend({
 
         this.set({
             url,
-            shortURL,
+            shortUrl,
             summary
         });
     }

@@ -22,8 +22,8 @@ mixin post(data, moment)
             .row
                 .col-xs-8.text-left
                     - summary = encodeURIComponent(data.summary)
-                    - shortURL = 'https://sunforgecards.com' + data.shortURL
-                    - encodedShortURL = encodeURIComponent(shortURL)
+                    - shortUrl = 'https://sunforgecards.com' + data.shortUrl
+                    - encodedShortURL = encodeURIComponent(shortUrl)
 
                     +media-button('https://www.facebook.com/sharer.php?' +
                         'u=' + encodedShortURL,
