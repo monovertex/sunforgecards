@@ -7,11 +7,20 @@ mixin post(data, moment)
             if data.photos
                 .photo-wrapper
                     .media-container
-                        .photo-inner(class=data.photos.length > 1 ? 'photoset' : false)
+                        - photoset = data.photos.length > 1
+
+                        .photo-inner(class = photoset ? 'photoset' : 'single-photo')
                             each photo in data.photos
                                 - url = '/photos/' + data.id + '/' + photo
-                                a.photo(href=url)
-                                    img(src=url)
+
+                                if photoset
+                                    a.photo(href=url)
+                                        img(src=url)
+                                else
+                                    - style = 'background-image: url("' + url + '")'
+
+                                    a.photo(href=url, style=style)
+
             else if data.video
                 .video-wrapper
                     +video(data.isYoutube, data.video)

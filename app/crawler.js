@@ -1,17 +1,18 @@
 /*jshint loopfunc: true */
 
-let tumblr              = require('tumblr.js');
-let PostCollection      = require('./collections/posts');
-let AnswerCollection    = require('./collections/answers');
-let Post                = require('./models/post');
-let http                = require('http');
-let fs                  = require('fs');
-let path                = require('path');
-let url                 = require('url');
-let mkdirp              = require('mkdirp');
-let removeMarkdown      = require('remove-markdown');
-let credentials         = require('./credentials');
-let settings            = require('./settings');
+let tumblr           = require('tumblr.js');
+let PostCollection   = require('./collections/posts');
+let AnswerCollection = require('./collections/answers');
+let Post             = require('./models/post');
+let http             = require('http');
+let fs               = require('fs');
+let path             = require('path');
+let url              = require('url');
+let mkdirp           = require('mkdirp');
+let removeMarkdown   = require('remove-markdown');
+let credentials      = require('./credentials');
+let settings         = require('./settings');
+let moment           = require('moment');
 
 
 let client = tumblr.createClient({ credentials: credentials.tumblr });
@@ -40,6 +41,8 @@ function _iteratePosts(resolve, reject,
                 // We're only showing published posts.
                 if (post.state === 'published') {
 
+                    let isoDate = moment.utc(post.date, 'YYYY-MM-DD HH:mm:ss').toISOString();
+
                     // We're only showing some type of posts on this frontend.
                     if (post.type === 'video' || post.type === 'photo' ||
                         post.type === 'text') {
@@ -48,7 +51,7 @@ function _iteratePosts(resolve, reject,
                         let postInstance = new Post({
                             id: post.id,
                             slug: post.slug,
-                            date: post.date,
+                            date: isoDate,
                             type: post.type,
                             tags: post.tags,
                             caption: post.caption,
@@ -111,7 +114,7 @@ function _iteratePosts(resolve, reject,
                     } else if (post.type === 'answer') {
                         answers.add({
                             id: post.id,
-                            date: post.date,
+                            date: isoDate,
                             question: post.question,
                             answer: post.answer
                         });
