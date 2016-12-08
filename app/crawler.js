@@ -54,7 +54,7 @@ function _iteratePosts(resolve, reject,
                             date: isoDate,
                             type: post.type,
                             tags: post.tags,
-                            caption: post.caption,
+                            caption: post.caption || post.body,
                             summary: removeMarkdown(post.summary)
                         });
 
