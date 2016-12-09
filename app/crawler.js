@@ -49,7 +49,7 @@ function _iteratePosts(resolve, reject,
 
                         // Common information for posts.
                         let postInstance = new Post({
-                            id: post.id,
+                            id: String(post.id),
                             slug: post.slug,
                             date: isoDate,
                             type: post.type,
@@ -119,7 +119,7 @@ function _iteratePosts(resolve, reject,
                     // Save the Q&A posts in a different model.
                     } else if (post.type === 'answer') {
                         answers.add({
-                            id: post.id,
+                            id: String(post.id),
                             date: isoDate,
                             question: post.question,
                             answer: post.answer
