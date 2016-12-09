@@ -7,7 +7,9 @@
         $border-radius: 3px;
         margin-bottom: 80px;
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             margin-top: 0;
             margin-bottom: 10px;
             font-weight: bold;
@@ -29,11 +31,6 @@
                     .photo-inner {
                         @include cover-absolute;
                         overflow: hidden;
-
-                        iframe {
-                            width: 100% !important;
-                            height: 100% !important;
-                        }
                     }
                 }
             }
@@ -61,7 +58,7 @@
                         width: auto;
                         margin-left: $margin;
                         flex: 1 1 10px;
-                        transition: all 0.5s;
+                        transition: all .5s;
 
                         img {
                             height: 100%;

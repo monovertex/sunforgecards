@@ -108,7 +108,9 @@ module.exports = function (grunt) {
             }
         },
 
-        // JavaScript syntax checking.
+        /** Javascript ********************************************************/
+
+        // Syntax check
         jshint: {
             options: {
                 jshintrc: true
@@ -172,32 +174,10 @@ module.exports = function (grunt) {
             }
         },
 
-        // Cleanup dist files.
-        clean: {
-            dist: '<%= paths.dist.base %>*',
-        },
 
-        // Copy various static files (images, fonts, etc).
-        copy: {
-            main: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= paths.public.base %>',
-                        src: '**',
-                        dest: '<%= paths.dist.base %>'
-                    },
-                    {
-                        expand: true,
-                        cwd: '<%= paths.data.photos %>',
-                        src: '**',
-                        dest: '<%= paths.dist.photos %>'
-                    },
-                ],
-            },
-        },
+        /** SCSS **************************************************************/
 
-        // Styles compilation.
+        // Compile the SCSS styles.
         sass: {
             dev: {
                 options: {
@@ -219,7 +199,7 @@ module.exports = function (grunt) {
             }
         },
 
-        // Style prefixes and minification.
+        // Append browser prefixes and minify.
         postcss: {
             dev: {
                 options: {
@@ -246,8 +226,14 @@ module.exports = function (grunt) {
             }
         },
 
-        // Templates compilation.
+
+        /** Templates *********************************************************/
+
+        // Pug to HTML.
         pug: pugTargets.targets,
+
+
+        /** Compression *******************************************************/
 
         // HTML minification.
         htmlmin: {
@@ -297,6 +283,7 @@ module.exports = function (grunt) {
             }
         },
 
+        // Inline critical styles.
         critical: {
             options: {
                 base: './',
@@ -320,6 +307,34 @@ module.exports = function (grunt) {
                 src: '<%= paths.dist.base %>index.html',
                 dest: '<%= paths.dist.base %>index.html'
             }
+        },
+
+
+        /** Miscellaneous *****************************************************/
+
+        // Cleanup dist files.
+        clean: {
+            dist: '<%= paths.dist.base %>*',
+        },
+
+        // Copy various static files (images, fonts, etc).
+        copy: {
+            main: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= paths.public.base %>',
+                        src: '**',
+                        dest: '<%= paths.dist.base %>'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= paths.data.photos %>',
+                        src: '**',
+                        dest: '<%= paths.dist.photos %>'
+                    },
+                ],
+            },
         },
 
         // Live compilation.
@@ -377,8 +392,9 @@ module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt);
 
+    /** Tasks *****************************************************************/
+
     grunt.registerTask('scripts', ['jshint:dev', 'browserify:dev']);
-    // grunt.registerTask('scriptsVendor', ['uglify:vendorDev']);
 
     grunt.registerTask('styles', ['sass:dev', 'postcss:dev']);
 

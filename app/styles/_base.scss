@@ -2,7 +2,6 @@
 a {
     transition: color $transition-speed;
     color: $color-grey;
-    outline: none !important;
 
     &:focus,
     &:visited,
@@ -14,5 +13,17 @@ a {
 
     &:hover {
         color: $color-highlight;
+    }
+}
+
+a,
+button {
+    outline: none;
+
+    &:focus,
+    &:visited,
+    &:hover,
+    &:active {
+        outline: none;
     }
 }
