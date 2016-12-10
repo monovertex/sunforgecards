@@ -1,6 +1,6 @@
 
 let Backbone        = require('backbone');
-let PostView        = require('./views/post');
+let PageView        = require('./views/page');
 let NavbarView      = require('./views/navbar');
 let $               = require('jquery');
 let attachFastClick = require('fastclick');
@@ -13,9 +13,7 @@ global.$ = global.jQuery = $;
 
 $(() => {
 
-    $('.post').each((index, post) => {
-        new PostView({ el: post });
-    });
+    new PageView({ el: $('.page').first() });
 
     new NavbarView();
 

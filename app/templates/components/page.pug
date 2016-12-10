@@ -1,0 +1,7 @@
+
+include post.pug
+
+mixin page(posts, moment)
+    .page
+        each item in posts
+            +post(item, moment)

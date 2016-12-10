@@ -66,31 +66,37 @@ app.get('/ask', (req, res) => {
 
 /** Data retrieval ************************************************************/
 
-app.get('/post-list/', (req, res) => {
-    let posts = require(path.join(settings.path.data, 'posts.json')),
-        startId = req.query.id,
-        limit = Math.min(parseInt(req.query.limit, 10) || settings.maxPosts,
-            settings.maxPosts),
-        start,
-        results = [];
+app.get('/page/:index/', (req, res) => {
+    let { index } = req.params;
 
-    if (!startId) {
-        start = 0;
-    } else {
-        _.each(posts, (post, i) => {
-            if (post.id === startId) {
-                start = i + 1;
-                return false;
-            }
-        });
-    }
-
-    if (!_.isUndefined(start)) {
-        results = posts.slice(start, start + limit);
-    }
-
-    res.json(results);
+    res.sendFile(path.join(settings.path.page, `${index}.html`));
 });
+
+// app.get('/post-list/', (req, res) => {
+//     let posts = require(path.join(settings.path.data, 'posts.json')),
+//         startId = req.query.id,
+//         limit = Math.min(parseInt(req.query.limit, 10) || settings.maxPosts,
+//             settings.maxPosts),
+//         start,
+//         results = [];
+
+//     if (!startId) {
+//         start = 0;
+//     } else {
+//         _.each(posts, (post, i) => {
+//             if (post.id === startId) {
+//                 start = i + 1;
+//                 return false;
+//             }
+//         });
+//     }
+
+//     if (!_.isUndefined(start)) {
+//         results = posts.slice(start, start + limit);
+//     }
+
+//     res.json(results);
+// });
 
 app.listen(8000);
 

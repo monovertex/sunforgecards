@@ -10,8 +10,9 @@ module.exports = {
             project = path.join(app, '..'),
             dist = path.join(project, 'dist'),
             data = path.join(project, 'data'),
-            post = path.join(dist, 'post');
+            post = path.join(dist, 'post'),
+            page = path.join(dist, 'page');
 
-        return { app, dist, post, project, data };
+        return { app, dist, post, project, data, page };
     })()
 };

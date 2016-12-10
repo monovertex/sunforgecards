@@ -10,9 +10,19 @@ module.exports = function (grunt) {
     let posts               = require(path.join(settings.path.data, 'posts.json'));
     let answers             = require(path.join(settings.path.data, 'answers.json'));
 
+
+    // Split posts into pages.
+    let postCount = settings.maxPosts;
+    let postPages = [];
+
+    for (let i = 0; i < Math.ceil(posts.length / postCount); i++) {
+        postPages.push(posts.slice(i * postCount, (i + 1) * postCount));
+    }
+
+    // Generate all the template targets, depending on data.
     function generatePugTargets(id, path, template, data, options={}) {
-        let devKey = `dev${id}`,
-            prodKey = `prod${id}`,
+        let devKey = `dev-${path}${id}`,
+            prodKey = `prod-${path}${id}`,
             slug = data.slug ? `-${data.slug}` : '',
             distPath = `<%= paths.dist.base %>${path ? path : ''}${id}${slug}.html`,
             templateData = {
@@ -28,7 +38,7 @@ module.exports = function (grunt) {
                 [devKey]: {
                     options: {
                         pretty: true,
-                        compileDebug: true,
+                        compileDebug: false,
                         data: _.merge({ options: {
                             debug: true
                         }}, templateData)
@@ -38,6 +48,7 @@ module.exports = function (grunt) {
                 [prodKey]: {
                     options: {
                         pretty: false,
+                        compileDebug: false,
                         data: _.merge({ options: {
                             debug: false
                         }}, templateData)
@@ -64,13 +75,17 @@ module.exports = function (grunt) {
 
 
     let pugTargets = mergeTargets(
-        generatePugTargets('index', '', '<%= paths.app.templates %>index.pug', posts),
+        generatePugTargets('index', '', '<%= paths.app.templates %>index.pug', postPages[0]),
+
         generatePugTargets('ask', '', '<%= paths.app.templates %>ask.pug', answers, {
             hideAnswers: true
         }),
 
         ...(_.map(posts, (post) => generatePugTargets(
-            post.id, 'post/', '<%= paths.app.templates %>post.pug', post)))
+            post.id, 'post/', '<%= paths.app.templates %>post.pug', post))),
+
+        ...(_.map(postPages.slice(1), (page, index) => generatePugTargets(
+            index, 'page/', '<%= paths.app.templates %>page.pug', page)))
     );
 
     require('time-grunt')(grunt);
@@ -102,10 +117,6 @@ module.exports = function (grunt) {
                 photos: '<%= paths.data.base %>photos/'
             },
             public: { base: '<%= paths.base %>/public/' },
-            tmp: {
-                base: '<%= paths.base %>/tmp/',
-                app: '<%= paths.tmp.base %>app/'
-            }
         },
 
         /** Javascript ********************************************************/
@@ -342,38 +353,22 @@ module.exports = function (grunt) {
             // Keep an eye on the changing assets and live reload them.
             livereload: {
                 options: { livereload: true, },
-                files: [
-                    '<%= paths.dist.base %>**/*.{js,css,html,png}'
-                ]
+                files: ['<%= paths.dist.base %>**/*.{js,css,html,png}']
             },
             scripts: {
-                files: [
-                    '<%= paths.app.base %>**/*.js',
-                ],
+                files: ['<%= paths.app.base %>**/*.js'],
                 tasks: ['scripts']
             },
-            // 'scripts-vendor': {
-            //     files: [
-            //         '<%= paths.app.base %>**/*.js',
-            //     ],
-            //     tasks: ['scripts']
-            // },
             styles: {
-                files: [
-                    '<%= paths.app.styles %>**/*.scss',
-                ],
+                files: ['<%= paths.app.styles %>**/*.scss'],
                 tasks: ['styles']
             },
             templates: {
-                files: [
-                    '<%= paths.app.templates %>**/*.pug',
-                ],
+                files: ['<%= paths.app.templates %>**/*.pug'],
                 tasks: ['templates:dev']
             },
             public: {
-                files: [
-                    '<%= paths.public.base %>**'
-                ],
+                files: ['<%= paths.public.base %>**'],
                 tasks: ['copy']
             }
         },
@@ -422,6 +417,5 @@ module.exports = function (grunt) {
 
         // Compression
         'htmlmin', 'compress', 'imagemin']);
-
 
 };
