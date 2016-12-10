@@ -15,6 +15,7 @@
     "cssnano": "^3.7.4",
     "express": "^4.14.0",
     "express-slash": "^2.0.1",
+    "express-throttle": "^2.0.0",
     "extend": "^3.0.0",
     "fastclick": "^1.0.6",
     "glob": "^7.1.1",

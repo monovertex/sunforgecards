@@ -3,4 +3,12 @@ extends base.pug
 include components/page.pug
 
 block content
-    +page(data, moment)
+    .pages-wrapper
+        +page(data, moment)
+
+    .loader
+        .loader-inner
+            - var n = 0;
+            while n < 5
+                .loader-disc
+                - n++

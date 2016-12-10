@@ -13,13 +13,6 @@ module.exports = Backbone.View.extend({
     initialize() {
         _.bindAll(this, 'photoMouseover', 'onVisible', 'openNext');
 
-        this.$('.photo').each((index, photo) => {
-            let $photo = $(photo),
-                realWidth = $photo.find('img').outerWidth();
-
-            $photo.data('real-width', realWidth);
-        });
-
         this.openNext();
 
         this.throttledOpenNext = _.throttle(this.openNext, 5000, {
@@ -36,7 +29,13 @@ module.exports = Backbone.View.extend({
 
     open($photos) {
         $photos.each((index, photo) => {
-            let $photo = $(photo);
+            let $photo = $(photo),
+                realWidth = $photo.data('real-width');
+
+            if (!realWidth) {
+                realWidth = $photo.find('img').outerWidth();
+                $photo.data('real-width', realWidth);
+            }
 
             $photo.addClass('open');
 

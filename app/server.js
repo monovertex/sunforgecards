@@ -66,7 +66,7 @@ app.get('/ask', (req, res) => {
 
 /** Data retrieval ************************************************************/
 
-app.get('/page/:index/', (req, res) => {
+app.post('/page/:index/', (req, res) => {
     let { index } = req.params;
 
     res.sendFile(path.join(settings.path.page, `${index}.html`));

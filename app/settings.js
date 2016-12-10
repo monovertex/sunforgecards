@@ -4,7 +4,7 @@ let path = require('path');
 
 module.exports = {
     blog: 'sunforgecards.tumblr.com',
-    maxPosts: 20,
+    maxPosts: 10,
     path: (() => {
         let app = __dirname,
             project = path.join(app, '..'),
