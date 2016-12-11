@@ -27,4 +27,16 @@ body {
         left: ($sidebar-width + $content-gutter);
         overflow-x: hidden;
     }
+
+    @media all and (max-width: $responsive-breakpoint) {
+        .sidebar-column {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .content-column {
+            width: 100%;
+            position: static;
+        }
+    }
 }

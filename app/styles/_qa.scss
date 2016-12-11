@@ -4,6 +4,10 @@
     height: 190px;
     background-color: transparent;
     overflow: hidden;
+
+    @media all and (max-width: 600px) {
+        height: 255px
+    }
 }
 
 .qa {
@@ -77,6 +81,10 @@
             blockquote {
                 margin-bottom: 4px;
             }
+        }
+
+        @media all and (max-width: $responsive-breakpoint) {
+            display: none;
         }
     }
 }

@@ -19,7 +19,7 @@ module.exports = Backbone.View.extend({
             this.$el.addClass(this.animatedClassName);
         } else {
             this.$parent = this.$el.parent();
-            this.$placeholder = $('<div></div>').hide();
+            this.$placeholder = $('<div></div>').addClass('placeholder').hide();
             this.$el.after(this.$placeholder);
 
             $(window).scroll(_.throttle(this.onScroll, 100));
