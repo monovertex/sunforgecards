@@ -30,18 +30,31 @@ module.exports = Backbone.View.extend({
     open($photos) {
         $photos.each((index, photo) => {
             let $photo = $(photo),
-                realWidth = $photo.data('real-width');
+                realWidth = $photo.data('real-width'),
+                $img = $photo.find('img');
 
-            if (!realWidth) {
-                realWidth = $photo.find('img').outerWidth();
-                $photo.data('real-width', realWidth);
+            if (!this.loadLock) {
+
+                if (!realWidth) {
+                    realWidth = $img.outerWidth();
+                    $photo.data('real-width', realWidth);
+
+                    if (!realWidth) {
+                        this.loadLock = true;
+
+                        $img.on('load', () => {
+                            this.loadLock = false;
+                            this.open($photos);
+                        });
+                    }
+                }
+
+                $photo.addClass('open');
+
+                cssFlex($photo, `0 0 ${$photo.data('real-width')}px`);
+
+                this.close($photo.siblings());
             }
-
-            $photo.addClass('open');
-
-            cssFlex($photo, `0 0 ${$photo.data('real-width')}px`);
-
-            this.close($photo.siblings());
         });
     },
 
