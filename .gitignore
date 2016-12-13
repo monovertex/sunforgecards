@@ -1,6 +1,8 @@
 dist
 data
 app/credentials.js
+conf
+sftp-config.json
 
 # Logs
 logs

@@ -21,8 +21,9 @@ module.exports = function (grunt) {
 
     // Generate all the template targets, depending on data.
     function generatePugTargets(id, path, template, data, options={}) {
-        let devKey = `dev-${path}${id}`,
-            prodKey = `prod-${path}${id}`,
+        let pathSlug = path.replace(/\//, ''),
+            devKey = `dev${pathSlug}${id}`,
+            prodKey = `prod${pathSlug}${id}`,
             slug = data.slug ? `-${data.slug}` : '',
             distPath = `<%= paths.dist.base %>${path ? path : ''}${id}${slug}.html`,
             templateData = {
@@ -37,7 +38,7 @@ module.exports = function (grunt) {
             targets: {
                 [devKey]: {
                     options: {
-                        pretty: true,
+                        pretty: false,
                         compileDebug: false,
                         data: _.merge({ options: {
                             debug: true
@@ -47,7 +48,7 @@ module.exports = function (grunt) {
                 },
                 [prodKey]: {
                     options: {
-                        pretty: false,
+                        pretty: true,
                         compileDebug: false,
                         data: _.merge({ options: {
                             debug: false
