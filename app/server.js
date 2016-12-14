@@ -98,6 +98,6 @@ app.post('/page/:index/', (req, res) => {
 //     res.json(results);
 // });
 
-app.listen(8000);
+app.listen(settings.port);
 
-console.log('Express.js listening on port 8000');
+console.log(`Express.js listening on port 8300`);
