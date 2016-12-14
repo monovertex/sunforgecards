@@ -8,6 +8,4 @@ script:
 - grunt prod
 before_install:
 - openssl aes-256-cbc -K $encrypted_263dfe1ff415_key -iv $encrypted_263dfe1ff415_iv
-  -in credentials.js.enc -out app/credentials.js -d
-- openssl aes-256-cbc -K $encrypted_3519e5c09549_key -iv $encrypted_3519e5c09549_iv
-  -in credentials.js.enc -out app/credentials.js -d
+  -in app/credentials.js.enc -out app/credentials.js -d
