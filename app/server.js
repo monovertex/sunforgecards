@@ -1,12 +1,14 @@
 
 let express     = require('express');
-let app         = express();
 let path        = require('path');
 let _           = require('lodash');
 let slash       = require('express-slash');
 let glob        = require('glob');
 let settings    = require('./settings');
 let { postUrl } = require('./utils/post-url');
+
+
+let app = express();
 
 app.enable('strict routing');
 app.set('json spaces', 4);
