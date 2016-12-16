@@ -2,13 +2,14 @@
 module.exports = function (grunt) {
     'use strict';
 
-    let imageminOptipng     = require('imagemin-optipng');
-    let _                   = require('lodash');
-    let moment              = require('moment');
-    let path                = require('path');
-    let settings            = require('./app/settings');
-    let posts               = require(path.join(settings.path.data, 'posts.json'));
-    let answers             = require(path.join(settings.path.data, 'answers.json'));
+    let optipng  = require('imagemin-optipng');
+    let jpegtran = require('imagemin-jpegtran');
+    let _        = require('lodash');
+    let moment   = require('moment');
+    let path     = require('path');
+    let settings = require('./app/settings');
+    let posts    = require(path.join(settings.path.data, 'posts.json'));
+    let answers  = require(path.join(settings.path.data, 'answers.json'));
 
 
     // Split posts into pages.
@@ -38,7 +39,7 @@ module.exports = function (grunt) {
             targets: {
                 [devKey]: {
                     options: {
-                        pretty: false,
+                        pretty: true,
                         compileDebug: false,
                         data: _.merge({ options: {
                             debug: true
@@ -48,7 +49,7 @@ module.exports = function (grunt) {
                 },
                 [prodKey]: {
                     options: {
-                        pretty: true,
+                        pretty: false,
                         compileDebug: false,
                         data: _.merge({ options: {
                             debug: false
@@ -146,8 +147,6 @@ module.exports = function (grunt) {
 
         // Transpile and bundle.
         browserify: {
-            options: {
-            },
             dev: {
                 options: {
                     browserifyOptions: { debug: true },
@@ -171,18 +170,29 @@ module.exports = function (grunt) {
                         ['babelify', {
                             presets: ['es2015'],
                             sourceMaps: false
-                        }],
-                        ['uglifyify', {
-                            mangle: {},
-                            screwIE8: true,
-                            preserveComments: false,
-                            compress: {
-                                drop_console: true
-                            },
                         }]
                     ]
                 },
                 files: '<%= browserify.dev.files %>'
+            }
+        },
+
+        uglify: {
+            main: {
+                options: {
+                    mangle: {},
+                    screwIE8: true,
+                    preserveComments: false,
+                    compress: {
+                        drop_console: true
+                    },
+                    sourceMap: true,
+                },
+                files: {
+                    '<%= paths.dist.assets %>app.js': [
+                        '<%= paths.dist.assets %>app.js'
+                    ]
+                }
             }
         },
 
@@ -267,15 +277,23 @@ module.exports = function (grunt) {
         imagemin: {
             main: {
                 options: {
-                    optimizationLevel: 4,
-                    use: [imageminOptipng()]
+                    optimizationLevel: 1,
+                    use: [optipng(), jpegtran()]
                 },
-                files: [{
-                    expand: true,
-                    cwd: '<%= paths.dist.assets %>',
-                    src: ['**/*.png'],
-                    dest: '<%= paths.dist.assets %>'
-                }]
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= paths.dist.assets %>',
+                        src: ['**/*.png'],
+                        dest: '<%= paths.dist.assets %>'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= paths.dist.photos %>',
+                        src: ['**/*.png', '**/*.jpg'],
+                        dest: '<%= paths.dist.photos %>'
+                    }
+                ]
             }
         },
 
@@ -408,7 +426,7 @@ module.exports = function (grunt) {
         'sass:prod', 'postcss:prod',
 
         // Scripts
-        'jshint:prod', 'browserify:prod',
+        'jshint:prod', 'browserify:prod', 'uglify',
 
         // Copy public files
         'copy',
