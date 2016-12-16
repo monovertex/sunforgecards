@@ -17,6 +17,8 @@ after_success:
 - zip -r sunforgecards.zip app dist package.json deploy.sh
 - eval "$(ssh-agent -s)"
 - chmod 600 deploy_rsa
+- chmod +x deploy.sh
+- chmod 777 deploy.sh
 - ssh-add deploy_rsa
 - ./deploy.sh
 env:
