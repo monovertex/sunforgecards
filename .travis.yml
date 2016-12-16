@@ -1,6 +1,6 @@
 language: node_js
 addons:
-  ssh_known_hosts: "$deploy_server"
+  ssh_known_hosts: ssh.monovertex.com
 node_js:
 - '6'
 before_install:
@@ -18,7 +18,7 @@ after_success:
 - eval "$(ssh-agent -s)"
 - chmod 600 deploy_rsa
 - ssh-add deploy_rsa
-- scp dist.zip monovertex@$deploy_server:~/sunforgecards.zip
+- scp dist.zip monovertex@ssh.monovertex.com:~/sunforgecards.zip
 env:
   global:
   - secure: fpVO6ragfaTdIreQjkJzUMVGPYoofoLvzAWPauP6H6+eoqD1pMM2iyX6nq/i//ImQhluaDda734Ui2qfp0QziaRfQQpkmwlSkzUUVRFVDdJfueBW8l3lMJjadvpCqjLD8SipvCS8cnXqNBxpgAllQyANirN3IXynLtG3/XCa4OiHS22932K3ChBprtuHUzKoZawoZzgtXf4zKUZviQ5tJ4hvPeiy2N0PkpAmK0HlQkYx4DF4R2KV67V8MvCJQDsjBk0YZ/rCnWE8vFY8oGyfXmFwguqhrdtJJHPpGsekihtGRpva2KXbNGO+Z4VxXNmWKT1pJucL/LlpN4tNtoMs5cNEj8Az8SoJ5yoTYM9XfO5N/3GAuIBq0dA4I8aqS83+qn9dKczYAD1oUGDuy8OE+kUQVFrykJrUwD3Um/U90fWGkkYYGV5dKY4a/qa/jYPDFSLKy8emy49RH+wWFRMraPkFS7Dxe3e77UdkECRunvMif80DHDiIjaHOEQfhfK0UTQrWjvK4zlqVdTCBniDoETWOvJetomi1prX13Z8QakPSUlukor51Drt3OfeWMkT6nWDsK6KIBEe0yjIka4iYiDN5KzRlrQ7XkWcR4TRLrFowiIAlEu3lh4kLU+VfqPeGiLGF7M6hFjYZR9PvyAq2ObXvsheg10zrLN3wQdamtGs=
