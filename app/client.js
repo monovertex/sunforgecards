@@ -1,8 +1,9 @@
 
 let Backbone        = require('backbone');
-let NavbarView      = require('./views/navbar');
 let $               = require('jquery');
 let attachFastClick = require('fastclick');
+let { loadCSS }     = require('fg-loadcss');
+let NavbarView      = require('./views/navbar');
 let MainRouter      = require('./routers/main');
                       require('./utils/disqus');
 
@@ -17,5 +18,7 @@ $(() => {
     new MainRouter();
 
     Backbone.history.start({ pushState: true });
+
+    loadCSS('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
 
 });

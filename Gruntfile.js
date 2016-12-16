@@ -2,14 +2,14 @@
 module.exports = function (grunt) {
     'use strict';
 
-    let optipng  = require('imagemin-optipng');
-    let jpegtran = require('imagemin-jpegtran');
-    let _        = require('lodash');
-    let moment   = require('moment');
-    let path     = require('path');
-    let settings = require('./app/settings');
-    let posts    = require(path.join(settings.path.data, 'posts.json'));
-    let answers  = require(path.join(settings.path.data, 'answers.json'));
+    let imageminPNG  = require('imagemin-optipng');
+    let imageminJPEG = require('imagemin-jpegtran');
+    let _            = require('lodash');
+    let moment       = require('moment');
+    let path         = require('path');
+    let settings     = require('./app/settings');
+    let posts        = require(path.join(settings.path.data, 'posts.json'));
+    let answers      = require(path.join(settings.path.data, 'answers.json'));
 
 
     // Split posts into pages.
@@ -275,26 +275,33 @@ module.exports = function (grunt) {
 
         // PNG compression.
         imagemin: {
-            main: {
+            png: {
                 options: {
-                    optimizationLevel: 1,
-                    use: [optipng(), jpegtran()]
+                    optimizationLevel: 2,
+                    use: [imageminPNG()]
                 },
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= paths.dist.assets %>',
+                        cwd: '<%= paths.dist.base %>',
                         src: ['**/*.png'],
-                        dest: '<%= paths.dist.assets %>'
-                    },
-                    {
-                        expand: true,
-                        cwd: '<%= paths.dist.photos %>',
-                        src: ['**/*.png', '**/*.jpg'],
-                        dest: '<%= paths.dist.photos %>'
+                        dest: '<%= paths.dist.base %>'
                     }
                 ]
-            }
+            },
+            jpeg: {
+                options: {
+                    use: [imageminJPEG()]
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= paths.dist.base %>',
+                        src: ['**/*.jpg', '**/*.jpeg'],
+                        dest: '<%= paths.dist.base %>'
+                    }
+                ]
+            },
         },
 
         // HTML, JS, CSS compression.
