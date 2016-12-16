@@ -3,6 +3,9 @@ data
 app/credentials.js
 conf
 sftp-config.json
+deploy_rsa
+deploy.sh
+encrypt.sh
 
 # Logs
 logs
