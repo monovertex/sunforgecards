@@ -304,6 +304,29 @@ module.exports = function (grunt) {
             },
         },
 
+        image: {
+            main: {
+                options: {
+                    pngquant: true,
+                    optipng: false,
+                    zopflipng: false,
+
+                    jpegRecompress: false,
+                    jpegoptim: true,
+                    mozjpeg: false,
+
+                    gifsicle: false,
+                    svgo: false
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= paths.dist.base %>',
+                    src: ['**/*.{jpg,jpeg,png}'],
+                    dest: '<%= paths.dist.base %>'
+                }]
+            }
+        },
+
         // HTML, JS, CSS compression.
         compress: {
             main: {
@@ -442,6 +465,6 @@ module.exports = function (grunt) {
         'templates:prod', 'critical',
 
         // Compression
-        'htmlmin', 'compress', 'imagemin']);
+        'htmlmin', 'compress', 'image']);
 
 };
