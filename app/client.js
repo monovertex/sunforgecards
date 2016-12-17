@@ -3,10 +3,12 @@ let Backbone        = require('backbone');
 let $               = require('jquery');
 let attachFastClick = require('fastclick');
 let { loadCSS }     = require('fg-loadcss');
+let picturefill     = require('picturefill');
 let NavbarView      = require('./views/navbar');
 let MainRouter      = require('./routers/main');
                       require('./utils/disqus');
 
+picturefill();
 attachFastClick(document.body);
 
 global.$ = global.jQuery = $;

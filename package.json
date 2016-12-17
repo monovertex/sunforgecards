@@ -48,6 +48,7 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.17.0",
     "node-bourbon": "^4.2.8",
+    "picturefill": "^3.0.2",
     "plyr": "^2.0.11",
     "remove-markdown": "^0.1.0",
     "time-grunt": "^1.4.0",
