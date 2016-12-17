@@ -89,6 +89,8 @@ function _iteratePosts(resolve, reject,
                         // their paths.
                         } else if (post.type === 'photo') {
                             let postPhotos = [];
+                            let photoPath = path.join(settings.path.data, 'photos',
+                                post.photos.length === 1 ? 'single' : 'set', String(post.id));
 
                             for (let photo of post.photos) {
                                 // Make regular HTTP requests.
@@ -96,8 +98,7 @@ function _iteratePosts(resolve, reject,
                                     .replace('https', 'http');
                                 let sourceFilename = path.basename(
                                     url.parse(sourceUrl).pathname);
-                                let destPath = path.join(settings.path.data, 'photos',
-                                    String(post.id), sourceFilename);
+                                let destPath = path.join(photoPath, sourceFilename);
 
                                 // Make sure the entire path exists.
                                 mkdirp(path.dirname(destPath));

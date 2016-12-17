@@ -8,12 +8,13 @@ mixin post(data, moment)
                 .photo-wrapper
                     .media-container
                         - photoset = data.photos.length > 1
+                        - photoFolder = photoset ? 'set/' : 'single/'
 
                         .photo-inner(class = photoset ? 'photoset' : 'single-photo')
                             each photo in data.photos
-                                - image = data.id + '/' + photo
-                                - url = '/photos/' + image
-                                - smallUrl = '/photos/small/' + image
+                                - imagePath = data.id + '/' + photo
+                                - url = '/photos/' + photoFolder + imagePath
+                                - smallUrl = '/photos/small/' + photoFolder + imagePath
 
                                 if photoset
                                     a.photo(href=url)

@@ -2,8 +2,6 @@
 module.exports = function (grunt) {
     'use strict';
 
-    let imageminPNG  = require('imagemin-optipng');
-    let imageminJPEG = require('imagemin-jpegtran');
     let _            = require('lodash');
     let moment       = require('moment');
     let path         = require('path');
@@ -273,39 +271,22 @@ module.exports = function (grunt) {
             }
         },
 
-        // PNG compression.
-        imagemin: {
-            png: {
-                options: {
-                    optimizationLevel: 2,
-                    use: [imageminPNG()]
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= paths.dist.base %>',
-                        src: ['**/*.png'],
-                        dest: '<%= paths.dist.base %>'
-                    }
-                ]
-            },
-            jpeg: {
-                options: {
-                    use: [imageminJPEG()]
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= paths.dist.base %>',
-                        src: ['**/*.jpg', '**/*.jpeg'],
-                        dest: '<%= paths.dist.base %>'
-                    }
-                ]
-            },
-        },
-
         responsive_images: {
-            main: {
+            set: {
+                options: {
+                    sizes: [{
+                        rename: false,
+                        height: 372,
+                    }]
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= paths.dist.photos %>set',
+                    src: ['**/*.{jpg,jpeg,png}'],
+                    dest: '<%= paths.dist.photos %>small/set/'
+                }]
+            },
+            single: {
                 options: {
                     sizes: [{
                         rename: false,
@@ -316,9 +297,9 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= paths.dist.photos %>',
+                    cwd: '<%= paths.dist.photos %>single',
                     src: ['**/*.{jpg,jpeg,png}'],
-                    dest: '<%= paths.dist.photos %>small/'
+                    dest: '<%= paths.dist.photos %>small/single/'
                 }]
             }
         },
@@ -461,11 +442,13 @@ module.exports = function (grunt) {
 
     grunt.registerTask('styles', ['sass:dev', 'postcss:dev']);
 
+    grunt.registerTask('resize', ['responsive_images:set', 'responsive_images:single']);
+
     grunt.registerTask('templates:dev', pugTargets.devTargets);
     grunt.registerTask('templates:prod', pugTargets.prodTargets);
 
     grunt.registerTask('default', ['clean', 'styles', 'scripts',
-        'templates:dev', 'copy', 'responsive_images']);
+        'templates:dev', 'copy', 'resize']);
 
     grunt.registerTask('serve', ['default', 'express', 'watch']);
 
@@ -478,7 +461,7 @@ module.exports = function (grunt) {
         'jshint:prod', 'browserify:prod', 'uglify',
 
         // Copy public files
-        'copy', 'responsive_images',
+        'copy', 'resize',
 
         // Templates
         'templates:prod', 'critical',
