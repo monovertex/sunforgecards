@@ -309,7 +309,9 @@ module.exports = function (grunt) {
                 options: {
                     sizes: [{
                         rename: false,
-                        height: 380
+                        width: 660,
+                        height: 372,
+                        aspectRatio: false,
                     }]
                 },
                 files: [{
