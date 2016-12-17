@@ -1,10 +1,11 @@
 language: node_js
+sudo: required
 addons:
   ssh_known_hosts: ssh.monovertex.com
 node_js:
 - '6'
 before_install:
-- apt-get install graphicsmagick
+- sudo apt-get install graphicsmagick
 - openssl aes-256-cbc -k "$deploy_rsa_key" -in deploy_rsa.enc -out deploy_rsa -d
 - openssl aes-256-cbc -k "$deploy_key" -in deploy.sh.enc -out deploy.sh -d
 - openssl aes-256-cbc -k "$credentials_key" -in app/credentials.js.enc -out app/credentials.js
