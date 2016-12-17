@@ -11,13 +11,15 @@ mixin post(data, moment)
 
                         .photo-inner(class = photoset ? 'photoset' : 'single-photo')
                             each photo in data.photos
-                                - url = '/photos/' + data.id + '/' + photo
+                                - image = data.id + '/' + photo
+                                - url = '/photos/' + image
+                                - smallUrl = '/photos/small/' + image
 
                                 if photoset
                                     a.photo(href=url)
-                                        img(src=url)
+                                        img(src=smallUrl)
                                 else
-                                    - style = 'background-image: url("' + url + '")'
+                                    - style = 'background-image: url("' + smallUrl + '")'
 
                                     a.photo(href=url, style=style)
 

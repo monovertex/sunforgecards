@@ -304,6 +304,23 @@ module.exports = function (grunt) {
             },
         },
 
+        responsive_images: {
+            main: {
+                options: {
+                    sizes: [{
+                        rename: false,
+                        height: 380
+                    }]
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= paths.dist.photos %>',
+                    src: ['**/*.{jpg,jpeg,png}'],
+                    dest: '<%= paths.dist.photos %>small/'
+                }]
+            }
+        },
+
         image: {
             main: {
                 options: {
@@ -446,7 +463,7 @@ module.exports = function (grunt) {
     grunt.registerTask('templates:prod', pugTargets.prodTargets);
 
     grunt.registerTask('default', ['clean', 'styles', 'scripts',
-        'templates:dev', 'copy']);
+        'templates:dev', 'copy', 'responsive_images']);
 
     grunt.registerTask('serve', ['default', 'express', 'watch']);
 
@@ -459,7 +476,7 @@ module.exports = function (grunt) {
         'jshint:prod', 'browserify:prod', 'uglify',
 
         // Copy public files
-        'copy',
+        'copy', 'responsive_images',
 
         // Templates
         'templates:prod', 'critical',
