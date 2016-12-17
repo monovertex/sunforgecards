@@ -330,8 +330,8 @@ module.exports = function (grunt) {
                     optipng: false,
                     zopflipng: false,
 
-                    jpegRecompress: false,
-                    jpegoptim: true,
+                    jpegRecompress: true,
+                    jpegoptim: false,
                     mozjpeg: false,
 
                     gifsicle: false,
