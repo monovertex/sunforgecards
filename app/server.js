@@ -25,6 +25,13 @@ app.use(router);
 app.use(slash());
 
 
+function fileNotFound(res) {
+    return () => {
+        res.status(404).sendFile(path.join(settings.path.dist, 'error.html'));
+    };
+}
+
+
 /** Static files **************************************************************/
 
 _.each(['assets', 'photos'], (static) => {
@@ -38,7 +45,7 @@ _.each(['assets', 'photos'], (static) => {
 app.get('/post/:id/:slug/', (req, res) => {
     let { id, slug } = req.params;
 
-    res.sendFile(path.join(settings.path.post, `${id}-${slug}.html`));
+    res.sendFile(path.join(settings.path.post, `${id}-${slug}.html`), fileNotFound(res));
 });
 
 app.get('/post/:id/', (req, res) => {
@@ -50,6 +57,8 @@ app.get('/post/:id/', (req, res) => {
                 match = re.exec(files[0]);
 
             res.redirect(postUrl(id, match[1]));
+        } else {
+            fileNotFound(res)();
         }
     });
 });
@@ -58,11 +67,11 @@ app.get('/post/:id/', (req, res) => {
 /** Main pages ****************************************************************/
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(settings.path.dist, 'index.html'));
+    res.sendFile(path.join(settings.path.dist, 'index.html'), fileNotFound(res));
 });
 
 app.get('/ask', (req, res) => {
-    res.sendFile(path.join(settings.path.dist, 'ask.html'));
+    res.sendFile(path.join(settings.path.dist, 'ask.html'), fileNotFound(res));
 });
 
 
@@ -71,34 +80,13 @@ app.get('/ask', (req, res) => {
 app.post('/page/:index/', (req, res) => {
     let { index } = req.params;
 
-    res.sendFile(path.join(settings.path.page, `${index}.html`));
+    res.sendFile(path.join(settings.path.page, `${index}.html`), fileNotFound(res));
 });
 
-// app.get('/post-list/', (req, res) => {
-//     let posts = require(path.join(settings.path.data, 'posts.json')),
-//         startId = req.query.id,
-//         limit = Math.min(parseInt(req.query.limit, 10) || settings.maxPosts,
-//             settings.maxPosts),
-//         start,
-//         results = [];
 
-//     if (!startId) {
-//         start = 0;
-//     } else {
-//         _.each(posts, (post, i) => {
-//             if (post.id === startId) {
-//                 start = i + 1;
-//                 return false;
-//             }
-//         });
-//     }
-
-//     if (!_.isUndefined(start)) {
-//         results = posts.slice(start, start + limit);
-//     }
-
-//     res.json(results);
-// });
+app.use(function(req, res) {
+    fileNotFound(res)();
+});
 
 app.listen(settings.port);
 

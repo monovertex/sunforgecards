@@ -19,7 +19,7 @@ module.exports = function (grunt) {
     }
 
     // Generate all the template targets, depending on data.
-    function generatePugTargets(id, path, template, data, options={}) {
+    function generatePugTargets(id, path, template, data={}, options={}) {
         let pathSlug = path.replace(/\//, ''),
             devKey = `dev${pathSlug}${id}`,
             prodKey = `prod${pathSlug}${id}`,
@@ -76,6 +76,7 @@ module.exports = function (grunt) {
 
     let pugTargets = mergeTargets(
         generatePugTargets('index', '', '<%= paths.app.templates %>index.pug', postPages[0]),
+        generatePugTargets('error', '', '<%= paths.app.templates %>error.pug', postPages[0]),
 
         generatePugTargets('ask', '', '<%= paths.app.templates %>ask.pug', answers, {
             hideAnswers: true
