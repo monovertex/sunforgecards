@@ -3,16 +3,16 @@ a {
     transition: color $transition-speed;
     color: $color-grey;
 
+    &:hover {
+        color: $color-highlight;
+    }
+
     &:focus,
     &:visited,
     &:hover,
     &:active {
         text-decoration: none;
         color: $color-grey;
-    }
-
-    &:hover {
-        color: $color-highlight;
     }
 }
 

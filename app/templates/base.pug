@@ -1,71 +1,51 @@
+extends abstract.pug
+
 include components/nav-link.pug
 include components/answer.pug
 
-doctype html
+block body
+    aside.sidebar-column#sidebar
+        .navbar#navbar
+            header.logo-wrapper
+                a(href='/')
+                    img.logo.img-responsive(
+                        srcset='/assets/images/logo.png 1x, /assets/images/logo-hd.png 2x'
+                        alt='Sunforge Cards')
 
-html
-    head
-        meta(charset='utf-8')
-        meta(http-equiv='x-ua-compatible' content='ie-edge')
-        meta(
-            name='viewport'
-            content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-        )
+            nav.navigation
+                div.navigation-inner
+                    +nav-link('http://yt.sunforgecards.com', 'youtube',
+                        'YouTube', 'icon-youtube')
+                    +nav-link('https://facebook.com/sunforgecards', 'facebook',
+                        'Facebook', 'icon-facebook')
+                    +nav-link('https://www.instagram.com/sunforgecards', 'instagram',
+                        'Instagram', 'icon-instagram')
+                    +nav-link('https://pinterest.com/sunforgecards', 'pinterest',
+                        'Pinterest', 'icon-pinterest')
+                    +nav-link('https://twitter.com/sunforgecards', 'twitter',
+                        'Twitter', 'icon-twitter')
+                    +nav-link('mailto:contact@sunforgecards.com', 'mail',
+                        'Email', 'icon-envelope')
+                    +nav-link('/ask', 'ask', 'Ask me', 'icon-question', true)
 
-        title= 'Sunforge Cards'
+        unless options.hideAnswers
+            .qa.small-text
+                header.qa-header
+                    h3.pull-left.qa-title= 'Latest Q&A'
+                    a.pull-right(href='/ask')= 'Check all'
+                    .clearfix
 
-        link(rel='shortcut icon' href='/assets/images/favicon.png')
+                .qa-content
+                    - recent = answers.slice(0, 3)
 
-        link(rel='stylesheet' href='/assets/app.css')
+                    each qaItem in recent
+                        +answer(qaItem, moment)
 
-        block head
+                footer.qa-footer
+                    a(href='/ask')= 'View all questions'
 
-    body
-        .global-wrapper
-            aside.sidebar-column#sidebar
-                .navbar#navbar
-                    header.logo-wrapper
-                        a(href='/')
-                            img.logo.img-responsive(
-                                srcset='/assets/images/logo.png 1x, /assets/images/logo-hd.png 2x'
-                                alt='Sunforge Cards')
+    .content-column
+        block content
 
-                    nav.navigation
-                        div.navigation-inner
-                            +nav-link('http://yt.sunforgecards.com', 'youtube',
-                                'YouTube', 'icon-youtube')
-                            +nav-link('https://facebook.com/sunforgecards', 'facebook',
-                                'Facebook', 'icon-facebook')
-                            +nav-link('https://www.instagram.com/sunforgecards', 'instagram',
-                                'Instagram', 'icon-instagram')
-                            +nav-link('https://pinterest.com/sunforgecards', 'pinterest',
-                                'Pinterest', 'icon-pinterest')
-                            +nav-link('https://twitter.com/sunforgecards', 'twitter',
-                                'Twitter', 'icon-twitter')
-                            +nav-link('mailto:contact@sunforgecards.com', 'mail',
-                                'Email', 'icon-envelope')
-                            +nav-link('/ask', 'ask', 'Ask me', 'icon-question', true)
-
-                unless options.hideAnswers
-                    .qa.small-text
-                        header.qa-header
-                            h3.pull-left.qa-title= 'Latest Q&A'
-                            a.pull-right(href='/ask')= 'Check all'
-                            .clearfix
-
-                        .qa-content
-                            - recent = answers.slice(0, 3)
-
-                            each qaItem in recent
-                                +answer(qaItem, moment)
-
-                        footer.qa-footer
-                            a(href='/ask')= 'View all questions'
-
-            .content-column
-                block content
-
-        script(src='/assets/app.js' async=true)
-
-        if options.debug
-            script(src='//localhost:35729/livereload.js')
+block afterBody
+    script(src='/assets/app.js' async=true)

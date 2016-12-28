@@ -4,14 +4,17 @@
         opacity: 0;
         transform: translateX(-100px);
     }
+
     33% {
         opacity: 1;
         transform: translateX(0);
     }
+
     66% {
         opacity: 1;
         transform: translateX(0);
     }
+
     100% {
         opacity: 0;
         transform: translateX(100px);
@@ -49,8 +52,7 @@
 
             @for $i from 1 through $count {
                 &:nth-child(#{$i}) {
-                    animation:
-                        loading
+                    animation: loading
                         $duration
                         ($max-delay - (($i - 1) * $delay-step))
                         infinite

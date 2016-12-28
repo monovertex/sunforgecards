@@ -1,4 +1,12 @@
-extends base.pug
+extends abstract.pug
 
-block content
-    ='Page not found'
+block body
+    .error-wrapper
+        p.error='The page you were looking for was not found.'
+
+        p.error
+            ='You can go back to the '
+            a(href='/')='homepage'
+            =' or '
+            a(href='mailto:contact@sunforgecards.com')='contact me'
+            =' if you believe this is an error.'
