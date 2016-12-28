@@ -1,13 +1,9 @@
 
 .ask-form {
     width: 100%;
-    height: 190px;
+    height: 280px;
     background-color: transparent;
     overflow: hidden;
-
-    @media all and (max-width: 600px) {
-        height: 255px;
-    }
 }
 
 .qa {
