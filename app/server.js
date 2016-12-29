@@ -19,12 +19,10 @@ var router = express.Router({
     strict          : app.get('strict routing')
 });
 
-// Add the `slash()` middleware after your app's `router`, optionally specify
-// an HTTP status code to use when redirecting (defaults to 301).
 app.use(router);
 app.use(slash());
 
-
+// 404 error generator for when a file is not found.
 function fileNotFound(res) {
     return () => {
         res.status(404).sendFile(path.join(settings.path.dist, 'error.html'));
@@ -48,6 +46,9 @@ app.get('/post/:id/:slug/', (req, res) => {
     res.sendFile(path.join(settings.path.post, `${id}-${slug}.html`), fileNotFound(res));
 });
 
+// Posts may also be referenced by their ID only. When a GET request is sent to
+// an URL like that, search for a corresponding template. If one is found,
+// permanently redirect to the correct URL.
 app.get('/post/:id/', (req, res) => {
     let { id } = req.params;
 
@@ -83,6 +84,7 @@ app.post('/page/:index/', (req, res) => {
     res.sendFile(path.join(settings.path.page, `${index}.html`), fileNotFound(res));
 });
 
+/** Error handling ************************************************************/
 
 app.use(function(req, res) {
     fileNotFound(res)();

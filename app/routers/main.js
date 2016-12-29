@@ -8,6 +8,10 @@ module.exports = Backbone.Router.extend({
         '': 'index'
     },
 
+    /**
+     * Initializes the logic for the Index page, that manages infinite loading
+     * of the post pages.
+     */
     index() {
         new IndexView({ el: '.pages-wrapper' });
     }

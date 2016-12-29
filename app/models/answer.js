@@ -1,5 +1,3 @@
 let Backbone = require('backbone');
 
-module.exports = Backbone.Model.extend({
-
-});
+module.exports = Backbone.Model.extend({});

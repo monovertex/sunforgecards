@@ -18,7 +18,16 @@ module.exports = function (grunt) {
         postPages.push(posts.slice(i * postCount, (i + 1) * postCount));
     }
 
-    // Generate all the template targets, depending on data.
+    /**
+     * Generates targets for the pug and watch tasks, depending on the
+     * generated data.
+     * @param {String} id Identifier of the currently generated page
+     * @param {String} path Destination path
+     * @param {String} template Path of the template to use
+     * @param {Object} data Data for the template
+     * @param {Object} options Additional options
+     * @return {Object} Set of targets to use
+     */
     function generatePugTargets(id, path, template, data={}, options={}) {
         let pathSlug = path.replace(/\//, ''),
             devKey = `dev${pathSlug}${id}`,
@@ -61,11 +70,20 @@ module.exports = function (grunt) {
         };
     }
 
+    /**
+     * Merges a list of targets for the Pug tasks.
+     * @param {...Object} targets Array of Objects containing tasks for dev and prod templates
+     * @return {Array} List of targets
+     */
     function mergeTargets(...targets) {
         return _.reduce(targets, (result, current) => {
             let { targets, devKey, prodKey } = current;
 
+            // The Pug targets are objects, just merge them. The ids are unique
+            // anyway.
             _.merge(result.targets, targets);
+
+            // The watch targets are simply arrays, push the items in them.
             result.devTargets.push(`pug:${devKey}`);
             result.prodTargets.push(`pug:${prodKey}`);
 
@@ -73,18 +91,23 @@ module.exports = function (grunt) {
         }, { targets: {}, devTargets: [], prodTargets: [] });
     }
 
-
+    // Build all the targets.
     let pugTargets = mergeTargets(
+
+        // Single pages, pretty straightforward configuration.
         generatePugTargets('index', '', '<%= paths.app.templates %>index.pug', postPages[0]),
         generatePugTargets('error', '', '<%= paths.app.templates %>error.pug', postPages[0]),
-
         generatePugTargets('ask', '', '<%= paths.app.templates %>ask.pug', answers, {
             hideAnswers: true
         }),
 
+        // Single post pages. Map posts and generate the targets, then deconstruct with the
+        // splat operator the results of the map.
         ...(_.map(posts, (post) => generatePugTargets(
             post.id, 'post/', '<%= paths.app.templates %>post.pug', post))),
 
+        // Post list pages. The posts were sliced into pages earlier, iterate over those
+        // and generate the targets with the appropriate path.
         ...(_.map(postPages.slice(1), (page, index) => generatePugTargets(
             index, 'page/', '<%= paths.app.templates %>page.pug', page)))
     );
@@ -272,6 +295,7 @@ module.exports = function (grunt) {
             }
         },
 
+        // Resize images.
         responsive_images: {
             set: {
                 options: {
@@ -305,6 +329,7 @@ module.exports = function (grunt) {
             }
         },
 
+        // Compress images.
         image: {
             main: {
                 options: {

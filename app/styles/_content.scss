@@ -23,6 +23,9 @@
                 overflow: hidden;
 
                 .media-container {
+                    // This trick enables a 16:9 responsive container,
+                    // allowing the video or iframe inside of it to use
+                    // 100% width and 100% height.
                     width: 100%;
                     position: relative;
                     padding-bottom: 56.25%;

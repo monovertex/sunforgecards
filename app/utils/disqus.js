@@ -1,4 +1,9 @@
 
+/**
+ * Initializes the Disqus library, where needed, if the container element
+ * exists.
+ */
+
 let $ = require('jquery');
 
 $(() => {
