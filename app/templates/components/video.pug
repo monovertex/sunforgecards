@@ -5,7 +5,7 @@ mixin video(videoType, url)
     if videoType === 'youtube' || videoType === 'tumblr'
         .video-wrapper
             if videoType === 'youtube'
-                div(data-type='youtube' data-video-id=url)
+                div(data-plyr-provider='youtube' data-plyr-embed-id=url)
             else
                 video(controls=true)
                     source(src=url type='video/mp4')

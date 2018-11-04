@@ -157,7 +157,8 @@ function iteratePosts() {
 iteratePosts().then(({ posts, answers }) => {
     let postsPath = path.join(settings.path.data, 'posts.json');
     let answersPath = path.join(settings.path.data, 'answers.json');
+    console.log(postsPath, answersPath);
 
-    fs.writeFile(postsPath, JSON.stringify(posts.toJSON()), 'utf8');
-    fs.writeFile(answersPath, JSON.stringify(answers.toJSON()), 'utf8');
+    fs.writeFileSync(postsPath, JSON.stringify(posts.toJSON()));
+    fs.writeFileSync(answersPath, JSON.stringify(answers.toJSON()));
 });

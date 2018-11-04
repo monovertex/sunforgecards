@@ -3,7 +3,7 @@ sudo: required
 addons:
   ssh_known_hosts: ssh.monovertex.com
 node_js:
-- '6'
+- '10'
 before_install:
 - sudo apt-get install graphicsmagick
 - openssl aes-256-cbc -k "$deploy_rsa_key" -in deploy_rsa.enc -out deploy_rsa -d
@@ -11,10 +11,10 @@ before_install:
 - openssl aes-256-cbc -k "$credentials_key" -in app/credentials.js.enc -out app/credentials.js
   -d
 install:
-- npm install
+- yarn
 script:
 - node app/crawler
-- grunt prod
+- yarn run grunt prod
 after_success:
 - zip -r sunforgecards.zip app dist package.json deploy.sh
 - eval "$(ssh-agent -s)"

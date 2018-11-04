@@ -1,7 +1,7 @@
 
 let Backbone    = require('backbone');
 let _           = require('lodash');
-let plyr        = require('plyr');
+let Plyr        = require('plyr');
 
 /**
  * Logic for a video posts. Enables the Plyr video and plays / stops it when
@@ -14,9 +14,9 @@ module.exports = Backbone.View.extend({
         _.bindAll(this, 'play', 'pause');
 
         // Setup the plyr video player.
-        this.plyr = plyr.setup(this.el, {
+        this.plyr = new Plyr(this.$el.children(), {
             volume: 0
-        })[0];
+        });
 
         this.delays = {};
 
@@ -41,7 +41,7 @@ module.exports = Backbone.View.extend({
      */
     play() {
         this.delay(() => {
-            this.plyr.setVolume(0);
+            this.plyr.volume = 0;
             this.plyr.play();
         });
     },

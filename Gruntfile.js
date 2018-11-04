@@ -8,6 +8,7 @@ module.exports = function (grunt) {
     let settings     = require('./app/settings');
     let posts        = require(path.join(settings.path.data, 'posts.json'));
     let answers      = require(path.join(settings.path.data, 'answers.json'));
+    const sass = require('node-sass');
 
 
     // Split posts into pages.
@@ -174,7 +175,7 @@ module.exports = function (grunt) {
                     browserifyOptions: { debug: true },
                     transform: [
                         ['babelify', {
-                            presets: ['es2015'],
+                            presets: ['@babel/preset-env'],
                             sourceMaps: true
                         }]
                     ]
@@ -190,7 +191,7 @@ module.exports = function (grunt) {
                     browserifyOptions: { debug: false },
                     transform: [
                         ['babelify', {
-                            presets: ['es2015'],
+                            presets: ['@babel/preset-env'],
                             sourceMaps: false
                         }]
                     ]
@@ -225,6 +226,7 @@ module.exports = function (grunt) {
         sass: {
             dev: {
                 options: {
+                    implementation: sass,
                     outputStyle: 'expanded',
                     sourceComments: true,
                     sourceMap: true
@@ -236,8 +238,9 @@ module.exports = function (grunt) {
             },
             prod: {
                options: {
+                    implementation: sass,
                     outputStyle: 'compressed',
-                    sourceMap: true
+                    sourceMap: false
                },
                files: '<%= sass.dev.files %>'
             }
@@ -322,7 +325,7 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= paths.dist.photos %>single',
+                    cwd: '<%= paths.dist.photos %>single/',
                     src: ['**/*.{jpg,jpeg,png}'],
                     dest: '<%= paths.dist.photos %>small/single/'
                 }]
