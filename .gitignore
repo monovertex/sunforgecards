@@ -4,6 +4,7 @@ app/credentials.js
 conf
 sftp-config.json
 deploy_rsa
+deploy_rsa.pub
 deploy.sh
 encrypt.sh
 
