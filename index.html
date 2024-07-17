@@ -104,27 +104,50 @@
         </nav>
     </main>
 
-    <picture class="background">
-        <source
-            srcset="
-                /assets/background-portrait-1440.webp 3x,
-                /assets/background-portrait-1080.webp 2x,
-                /assets/background-portrait-768.webp
-            "
-            type="image/webp"
-            media="(max-aspect-ratio: 1.2)"
-        >
+    <div class="background">
+        <picture class="background__picture">
+            <source
+                srcset="
+                    /assets/background-1-portrait-2560.webp 2x,
+                    /assets/background-1-portrait-1920.webp
+                "
+                type="image/webp"
+                media="(max-aspect-ratio: 1.2)"
+            >
 
-        <source
-            srcset="
-                /assets/background-landscape-2560.webp 2x,
-                /assets/background-landscape-1920.webp
-            "
-            type="image/webp"
-            media="(min-aspect-ratio: 1.2)"
-        >
+            <source
+                srcset="
+                    /assets/background-1-landscape-2560.webp 2x,
+                    /assets/background-1-landscape-1920.webp
+                "
+                type="image/webp"
+                media="(min-aspect-ratio: 1.2)"
+            >
 
-        <img alt="Background photo, a shadowbox made by Sunforge Cards of Stardust Dragon, from Yu-Gi-Oh!">
-    </picture>
+            <img alt="Background photo, a shadowbox made by Sunforge Cards of Exodia, from Yu-Gi-Oh!">
+        </picture>
+
+        <picture class="background__picture">
+            <source
+                srcset="
+                    /assets/background-2-portrait-2560.webp 2x,
+                    /assets/background-2-portrait-1920.webp
+                "
+                type="image/webp"
+                media="(max-aspect-ratio: 1.2)"
+            >
+
+            <source
+                srcset="
+                    /assets/background-2-landscape-2560.webp 2x,
+                    /assets/background-2-landscape-1920.webp
+                "
+                type="image/webp"
+                media="(min-aspect-ratio: 1.2)"
+            >
+
+            <img alt="Background photo, a shadowbox made by Sunforge Cards of Exodia, from Yu-Gi-Oh!">
+        </picture>
+    </div>
 </body>
 </html>
