@@ -131,6 +131,7 @@ body {
     text-align: right;
     z-index: 2;
     background-color: var(--color-background);
+    -webkit-backdrop-filter: blur(var(--blur-background));
     backdrop-filter: blur(var(--blur-background));
 }
 
@@ -164,6 +165,7 @@ body {
     bottom: 0;
     overflow: auto;
     z-index: 1;
+    -webkit-backdrop-filter: blur(var(--blur-background));
     backdrop-filter: blur(var(--blur-background));
     border-left: 2px solid var(--color-background);
     display: flex;
